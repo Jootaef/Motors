@@ -1,0 +1,538 @@
+
+/* === Reset and Base Styles === */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: 'Open Sans', sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+  line-height: 1.6;
+  background-image: url("../images/site/checkerboard.jpg");
+/* ADD */
+body {
+  background-image: 
+    linear-gradient(45deg, #ccc 25%, transparent 25%), 
+    linear-gradient(-45deg, #ccc 25%, transparent 25%), 
+    linear-gradient(45deg, transparent 75%, #ccc 75%), 
+    linear-gradient(-45deg, transparent 75%, #ccc 75%);
+  background-size: 40px 40px;
+  background-position: 0 0, 0 20px, 20px -20px, -20px 0px;
+}
+.custom-checkbox {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  padding-left: 25px; /* Space for custom box */
+}
+.custom-checkbox input[type="checkbox"] {
+  display: none; /* Hide native checkbox */
+}
+.custom-checkbox .checkmark {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 20px;
+  width: 20px;
+  background-image: url("../images/site/checkerboard.jpg");
+  background-size: cover; /* Ensures the image fills the box */
+  border: 1px solid #ccc;
+}
+.custom-checkbox input:checked + .checkmark::after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 2px;
+  width: 6px;
+  height: 12px;
+  border: solid #000;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg); /* Checkmark shape */
+}
+/* === Wrapper === */
+#wrapper {
+  max-width: 1200px;
+  margin: auto;
+  padding: 1rem;
+  background-color: blue;
+  padding: 20px;
+}
+/* === Header === */
+#top-header {
+  background-color: #2c3e50;
+  color: #fff;
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#top-header a {
+  color: #fff;
+  text-decoration: none;
+  margin-left: 1rem;
+  font-weight: bold;
+}
+/* === Navigation === */
+nav {
+  background-color: #18bc9c;
+  text-align: center; /* centers inline or inline-block items */
+}
+nav li {
+  margin: 0.5rem 1.5rem;
+}
+nav a {
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  text-align: center;
+}
+/* nav */
+/* navigation */
+/* 3.2 Navigation - Forced Centering */
+nav {
+  background-color: #18bc9c;
+  text-align: center !important; /* Added !important for higher precedence */
+  width: 100%; /* Ensure nav takes full width to center within */
+}
+
+nav ul {
+  display: flex !important; /* Added !important */
+  flex-wrap: wrap;
+  justify-content: center !important; /* Added !important */
+  list-style: none;
+  padding: 0.5rem 0;
+  margin: 0 auto !important; /* Center the ul element itself */
+  width: fit-content; /* Only take up the width of its content */
+}
+/* navigation */
+/* nav */
+/* === Hero Section === */
+.hero {
+  background: url('/images/hero.jpg') no-repeat center center/cover;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  text-align: center;
+}
+/* add Hero */
+.hero img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+/* Welcome section */
+.welcome {
+  text-align: center;
+  padding: 1rem;
+}
+/*    add     */
+.hero-content {
+  background: rgba(0, 0, 0, 0.6);
+  padding: 1.5rem;
+  border-radius: 8px;
+}
+.hero-content h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+.hero-content a {
+  background-color: #e74c3c;
+  color: #fff;
+  padding: 0.75rem 1.25rem;
+  border-radius: 5px;
+  text-decoration: none;
+}
+/* === Featured Cars Section === */
+/* OVERLAY */
+.overlay-text {
+  background-color: rgba(0, 0, 0, 0.5); /* Black with 50% transparency */
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+}
+/* OVERLAY END*/
+.featured-vehicles {
+  margin: 2rem 0;
+  text-align: center;
+}
+.featured-vehicles .car {
+  background: #ddd;
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem auto;
+  max-width: 400px;
+  background-image: url('/images/delorean.jpg');
+  background-size: cover;
+  background-position: center;
+  color: white;
+}
+/* === Reviews === */
+.reviews {
+  margin-top: 2rem;
+}
+.reviews ul {
+  list-style: none;
+  padding-left: 1rem;
+}
+.reviews li {
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 0.5rem;
+}
+/* === Upgrades Grid === */
+.upgrades {
+  margin-top: 2rem;
+}
+.upgrades-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+.upgrade-item {
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 1rem;
+  text-align: center;
+  border-radius: 8px;
+}
+/** upgrades add **/
+/* Upgrades */
+.upgrades {
+  padding: 1rem;
+}
+.upgrades-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.card {
+  text-align: center;
+}
+.card img {
+  max-width: 100%;
+  border-radius: 8px;
+}
+/* Invitation section */
+.invitation {
+  text-align: center;
+  padding: 1rem;
+}
+.invitation button {
+  background-color: #004aad;
+  color: white;
+  border: none;
+  padding: 0.7em 1.5em;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+/* === Media Queries for Large Screens === */
+@media screen and (min-width: 768px) {
+  .upgrades-grid {
+    flex-direction: row;
+    justify-content: space-around;
+  }
+  .welcome, .invitation {
+    padding: 2rem 5rem;
+  }
+  .invitation button {
+    font-size: 1.1rem;
+  }
+}
+/****  add **** add **/
+/* === Footer === */
+footer {
+  background-color: #333;
+  color: #ffffff;
+  padding: 0.75rem 1.25rem;
+  justify-content: space-between;
+  text-align: center;
+}
+/* === Responsive Styles === */
+@media (min-width: 768px) {
+  .hero {
+    height: 400px;
+  }
+  .hero-content h1 {
+    font-size: 3rem;
+  }
+  .upgrades-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+/* ********************************************* main add    ************   */
+ /* Base styles (Mobile First) */
+ /* Main content styles */
+.wrapper {
+  background-color: blue;
+  padding: 20px;
+}
+main {
+  background-color: white;
+  padding: 20px;
+}
+
+        main {
+            padding: 10px;
+        }
+        
+        h1 {
+            margin: 15px 0;
+            font-size: 1.5em;
+        }
+        
+        /* Hero section */
+        .hero {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .car-details {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .car-features {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        
+        .car-features h2 {
+            color: #4c96d7;
+            font-size: 1.3em;
+            margin-bottom: 5px;
+        }
+        
+        .car-features ul {
+            list-style-type: none;
+            color: #4c96d7;
+            margin-bottom: 15px;
+        }
+        
+        .cta-button {
+            background-color: #4c96d7;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            display: inline-block;
+        }
+        
+        .delorean-img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+        
+        /* Reviews section */
+        .reviews {
+            margin-bottom: 20px;
+        }
+        
+        .reviews h2 {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+        
+        .reviews ul {
+            list-style-type: none;
+            padding-left: 15px;
+        }
+        
+        .reviews ul li {
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        .reviews ul li::before {
+            content: "•";
+            position: absolute;
+            left: -15px;
+        }
+        
+        /* Upgrades section */
+        .upgrades {
+            margin-bottom: 20px;
+        }
+        
+        .upgrades h2 {
+            font-size: 1.3em;
+            margin-bottom: 15px;
+        }
+        
+        .upgrade-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        .upgrade-item {
+            text-align: center;
+        }
+        
+        .upgrade-image {
+            background-color: #4c96d7;
+            padding: 10px;
+            margin-bottom: 5px;
+        }
+        
+        .upgrade-image img {
+            width: 100%;
+            max-height: 100px;
+            object-fit: contain;
+        }
+        
+        .upgrade-name {
+            color: #4c96d7;
+            text-decoration: none;
+        }
+        
+        /* Footer styles */
+        footer {
+            text-align: center;
+            padding: 10px;
+            font-size: 0.8em;
+            color: #666;
+        }
+        
+        /* Responsive layout - Large screens */
+        @media screen and (min-width: 768px) {
+            .site-wrapper {
+                max-width: 800px;
+                margin: 0 auto;
+            }
+            
+            header {
+                padding: 15px 20px;
+            }
+            
+            .site-name {
+                font-size: 2em;
+            }
+            
+            .account-link {
+                font-size: 1em;
+            }
+            
+            nav ul {
+                justify-content: flex-start;
+            }
+            
+            nav ul li {
+                margin-right: 20px;
+            }
+            
+            main {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .hero {
+                display: flex;
+                flex-direction: column;
+            }
+            
+            .car-details {
+                position: relative;
+                display: flex;
+                justify-content: space-between;
+            }
+            
+            .car-features {
+                position: absolute;
+                top: 50px;
+                left: 20px;
+                z-index: 1;
+            }
+            
+            .cta-button {
+                margin-top: 0;
+            }
+            
+            .delorean-img {
+                max-width: 60%;
+                margin-left: auto;
+            }
+            
+            .content-sections {
+                display: flex;
+                justify-content: space-between;
+            }
+            
+            .reviews {
+                width: 45%;
+                order: 2;
+            }
+            
+            .upgrades {
+                width: 45%;
+                order: 1;
+            }
+            
+            .upgrade-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            /* Checkered border */
+            body::before, body::after {
+                content: "";
+                position: fixed;
+                top: 0;
+                bottom: 0;
+                width: 20px;
+                background: repeating-linear-gradient(
+                    to bottom,
+                    black,
+                    black 20px,
+                    white 20px,
+                    white 40px
+                );
+                z-index: -1;
+            }
+            
+            body::before {
+                left: 0;
+            }
+            
+            body::after {
+                right: 0;
+            }
+            
+            body::before {
+                content: "";
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 20px;
+                background: repeating-linear-gradient(
+                    to right,
+                    black,
+                    black 20px,
+                    white 20px,
+                    white 40px
+                );
+                z-index: -1;
+            }
+            
+            body {
+                padding: 20px;
+                background: repeating-linear-gradient(
+                    to right,
+                    black,
+                    black 20px,
+                    white 20px,
+                    white 40px
+                );
+            }
+        }
+      }
+/* end main add */

@@ -1,0 +1,391 @@
+<!-- Add Inventory View -->
+<% locals.title = "Add New Vehicle" %>
+
+<div class="add-inventory-container">
+    <h1><%= title %></h1>
+    
+    <!-- Flash Messages -->
+    <% if (locals.errors) { %>
+        <div class="error-messages">
+            <ul>
+                <% errors.array().forEach(error => { %>
+                    <li><%= error.msg %></li>
+                <% }) %>
+            </ul>
+        </div>
+    <% } %>
+    
+    <% if (locals.message) { %>
+        <div class="flash-message <%= locals.message.type %>">
+            <%= locals.message.text %>
+        </div>
+    <% } %>
+
+    <!-- Add Inventory Form -->
+    <form id="addInventoryForm" action="/inv/add-inventory" method="post">
+        <fieldset>
+            <legend>Vehicle Information</legend>
+            
+            <div class="form-group">
+                <label for="inv_make">Make: <span class="required">*</span></label>
+                <input type="text" 
+                       id="inv_make" 
+                       name="inv_make" 
+                       value="<%= locals.inv_make || '' %>"
+                       required
+                       pattern="[A-Za-z\s]{2,20}"
+                       title="Make must contain only letters and spaces, 2-20 characters">
+                <span class="error-text" id="inv_make_error"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="inv_model">Model: <span class="required">*</span></label>
+                <input type="text" 
+                       id="inv_model" 
+                       name="inv_model" 
+                       value="<%= locals.inv_model || '' %>"
+                       required
+                       pattern="[A-Za-z0-9\s\-]{2,30}"
+                       title="Model must be 2-30 characters, letters, numbers, spaces, and hyphens only">
+                <span class="error-text" id="inv_model_error"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="inv_year">Year: <span class="required">*</span></label>
+                <input type="number" 
+                       id="inv_year" 
+                       name="inv_year" 
+                       value="<%= locals.inv_year || '' %>"
+                       required
+                       min="1900"
+                       max="<%= new Date().getFullYear() + 1 %>"
+                       title="Enter a valid year between 1900 and <%= new Date().getFullYear() + 1 %>">
+                <span class="error-text" id="inv_year_error"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="inv_description">Description: <span class="required">*</span></label>
+                <textarea id="inv_description" 
+                          name="inv_description" 
+                          required
+                          minlength="10"
+                          maxlength="500"
+                          rows="4"
+                          title="Description must be between 10-500 characters"><%= locals.inv_description || '' %></textarea>
+                <span class="error-text" id="inv_description_error"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="inv_image">Image Path:</label>
+                <input type="text" 
+                       id="inv_image" 
+                       name="inv_image" 
+                       value="<%= locals.inv_image || '/images/vehicles/no-image.png' %>"
+                       pattern="^\/images\/vehicles\/.*\.(jpg|jpeg|png|gif)$"
+                       title="Must be a valid image path starting with /images/vehicles/ and ending with .jpg, .jpeg, .png, or .gif">
+                <span class="error-text" id="inv_image_error"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="inv_thumbnail">Thumbnail Path:</label>
+                <input type="text" 
+                       id="inv_thumbnail" 
+                       name="inv_thumbnail" 
+                       value="<%= locals.inv_thumbnail || '/images/vehicles/no-image-tn.png' %>"
+                       pattern="^\/images\/vehicles\/.*\.(jpg|jpeg|png|gif)$"
+                       title="Must be a valid thumbnail path starting with /images/vehicles/ and ending with .jpg, .jpeg, .png, or .gif">
+                <span class="error-text" id="inv_thumbnail_error"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="inv_price">Price: <span class="required">*</span></label>
+                <input type="number" 
+                       id="inv_price" 
+                       name="inv_price" 
+                       value="<%= locals.inv_price || '' %>"
+                       required
+                       min="0"
+                       step="0.01"
+                       title="Enter a valid price (minimum $0.00)">
+                <span class="error-text" id="inv_price_error"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="inv_miles">Mileage: <span class="required">*</span></label>
+                <input type="number" 
+                       id="inv_miles" 
+                       name="inv_miles" 
+                       value="<%= locals.inv_miles || '' %>"
+                       required
+                       min="0"
+                       title="Enter the vehicle mileage (minimum 0)">
+                <span class="error-text" id="inv_miles_error"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="inv_color">Color: <span class="required">*</span></label>
+                <input type="text" 
+                       id="inv_color" 
+                       name="inv_color" 
+                       value="<%= locals.inv_color || '' %>"
+                       required
+                       pattern="[A-Za-z\s]{2,20}"
+                       title="Color must contain only letters and spaces, 2-20 characters">
+                <span class="error-text" id="inv_color_error"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="classification_id">Classification: <span class="required">*</span></label>
+                <%- locals.classificationList %>
+                <span class="error-text" id="classification_id_error"></span>
+            </div>
+        </fieldset>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Add Vehicle</button>
+            <a href="/inv/" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+
+<style>
+.add-inventory-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.error-messages {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 15px;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.error-messages ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.flash-message {
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
+.flash-message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.flash-message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+fieldset {
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+legend {
+    font-weight: bold;
+    padding: 0 10px;
+    color: #333;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+.required {
+    color: #e74c3c;
+}
+
+input[type="text"],
+input[type="number"],
+textarea,
+select {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+input:invalid {
+    border-color: #e74c3c;
+}
+
+input:valid {
+    border-color: #28a745;
+}
+
+.error-text {
+    color: #e74c3c;
+    font-size: 14px;
+    display: block;
+    margin-top: 5px;
+}
+
+.form-actions {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    margin: 0 10px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #545b62;
+}
+
+#classificationList {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+@media (max-width: 768px) {
+    .add-inventory-container {
+        padding: 10px;
+    }
+    
+    .btn {
+        display: block;
+        width: 100%;
+        margin: 5px 0;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('addInventoryForm');
+    const inputs = form.querySelectorAll('input, textarea, select');
+
+    // Real-time validation
+    inputs.forEach(input => {
+        input.addEventListener('blur', validateField);
+        input.addEventListener('input', clearError);
+    });
+
+    function validateField(e) {
+        const field = e.target;
+        const errorSpan = document.getElementById(field.name + '_error');
+        
+        if (!field.checkValidity()) {
+            if (errorSpan) {
+                errorSpan.textContent = getErrorMessage(field);
+            }
+            field.classList.add('error');
+        } else {
+            if (errorSpan) {
+                errorSpan.textContent = '';
+            }
+            field.classList.remove('error');
+        }
+    }
+
+    function clearError(e) {
+        const field = e.target;
+        const errorSpan = document.getElementById(field.name + '_error');
+        
+        if (field.checkValidity()) {
+            if (errorSpan) {
+                errorSpan.textContent = '';
+            }
+            field.classList.remove('error');
+        }
+    }
+
+    function getErrorMessage(field) {
+        if (field.validity.valueMissing) {
+            return 'This field is required.';
+        }
+        if (field.validity.patternMismatch) {
+            return field.title || 'Please enter a valid value.';
+        }
+        if (field.validity.rangeUnderflow) {
+            return `Value must be at least ${field.min}.`;
+        }
+        if (field.validity.rangeOverflow) {
+            return `Value must be no more than ${field.max}.`;
+        }
+        if (field.validity.tooShort) {
+            return `Must be at least ${field.minLength} characters.`;
+        }
+        if (field.validity.tooLong) {
+            return `Must be no more than ${field.maxLength} characters.`;
+        }
+        return 'Please enter a valid value.';
+    }
+
+    // Form submission validation
+    form.addEventListener('submit', function(e) {
+        let isValid = true;
+        
+        inputs.forEach(input => {
+            if (!input.checkValidity()) {
+                isValid = false;
+                const errorSpan = document.getElementById(input.name + '_error');
+                if (errorSpan) {
+                    errorSpan.textContent = getErrorMessage(input);
+                }
+                input.classList.add('error');
+            }
+        });
+
+        if (!isValid) {
+            e.preventDefault();
+            alert('Please correct the errors in the form before submitting.');
+        }
+    });
+});
+</script>

@@ -1,0 +1,327 @@
+<!-- Management View -->
+<% locals.title = "Vehicle Management" %>
+
+<div class="management-container">
+    <h1><%= title %></h1>
+
+    <!-- Flash Messages -->
+    <% if (locals.messages) { %>
+        <% locals.messages.forEach(function(message) { %>
+            <div class="flash-message notice">
+                <%= message %>
+            </div>
+        <% }) %>
+    <% } %>
+
+    <% if (locals.message) { %>
+        <div class="flash-message <%= locals.message.type %>">
+            <%= locals.message.text %>
+        </div>
+    <% } %>
+
+    <!-- Management Actions -->
+    <div class="management-actions">
+        <h2>Management Actions</h2>
+        
+        <div class="action-grid">
+            <div class="action-card">
+                <h3>Add New Classification</h3>
+                <p>Create a new vehicle classification category</p>
+                <a href="/inv/add-classification" class="btn btn-primary">Add Classification</a>
+            </div>
+
+            <div class="action-card">
+                <h3>Add New Vehicle</h3>
+                <p>Add a new vehicle to the inventory</p>
+                <a href="/inv/add-inventory" class="btn btn-primary">Add Vehicle</a>
+            </div>
+
+            <div class="action-card">
+                <h3>Manage Inventory</h3>
+                <p>Edit or delete existing inventory items</p>
+                <div class="select-wrapper">
+                    <label for="classificationList">Select Classification:</label>
+                    <%- classificationSelect %>
+                    <button type="button" id="manageBtn" class="btn btn-secondary">Manage</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Inventory Management Table (hidden by default) -->
+    <div id="inventoryDisplay" class="inventory-display" style="display: none;">
+        <h3>Inventory Items</h3>
+        <table id="inventoryTable" class="inventory-table">
+            <thead>
+                <tr>
+                    <th>Vehicle Name</th>
+                    <th>Modify</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Inventory items will be loaded here via AJAX -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+.management-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.flash-message {
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.flash-message.notice {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.flash-message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.flash-message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.management-actions {
+    background: #f8f9fa;
+    padding: 30px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.management-actions h2 {
+    margin-bottom: 30px;
+    color: #333;
+    text-align: center;
+}
+
+.action-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.action-card {
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: transform 0.2s ease;
+}
+
+.action-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.action-card h3 {
+    color: #007bff;
+    margin-bottom: 15px;
+}
+
+.action-card p {
+    color: #666;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    margin-left: 10px;
+}
+
+.btn-secondary:hover {
+    background-color: #545b62;
+}
+
+.select-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.select-wrapper label {
+    font-weight: bold;
+    color: #333;
+}
+
+#classificationList {
+    padding: 8px 12px;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    min-width: 200px;
+}
+
+.inventory-display {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.inventory-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.inventory-table th,
+.inventory-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.inventory-table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+    color: #333;
+}
+
+.inventory-table tr:hover {
+    background-color: #f8f9fa;
+}
+
+.btn-small {
+    padding: 6px 12px;
+    font-size: 14px;
+    margin: 0 2px;
+}
+
+.btn-edit {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-edit:hover {
+    background-color: #218838;
+}
+
+.btn-delete {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-delete:hover {
+    background-color: #c82333;
+}
+
+@media (max-width: 768px) {
+    .action-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .select-wrapper {
+        flex-direction: column;
+    }
+    
+    .btn-secondary {
+        margin-left: 0;
+        margin-top: 10px;
+    }
+    
+    .inventory-table {
+        font-size: 14px;
+    }
+    
+    .inventory-table th,
+    .inventory-table td {
+        padding: 8px;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const manageBtn = document.getElementById('manageBtn');
+    const classificationList = document.getElementById('classificationList');
+    const inventoryDisplay = document.getElementById('inventoryDisplay');
+    const inventoryTable = document.getElementById('inventoryTable').getElementsByTagName('tbody')[0];
+
+    manageBtn.addEventListener('click', function() {
+        const classification_id = classificationList.value;
+        
+        if (!classification_id) {
+            alert('Please select a classification first.');
+            return;
+        }
+
+        // Fetch inventory data via AJAX
+        fetch(`/inv/getInventory/${classification_id}`)
+            .then(response => response.json())
+            .then(data => {
+                // Clear existing table rows
+                inventoryTable.innerHTML = '';
+                
+                if (data.length === 0) {
+                    inventoryTable.innerHTML = '<tr><td colspan="3">No inventory items found for this classification.</td></tr>';
+                } else {
+                    // Populate table with inventory data
+                    data.forEach(item => {
+                        const row = inventoryTable.insertRow();
+                        
+                        // Vehicle name cell
+                        const nameCell = row.insertCell(0);
+                        nameCell.textContent = `${item.inv_make} ${item.inv_model}`;
+                        
+                        // Modify cell
+                        const modifyCell = row.insertCell(1);
+                        modifyCell.innerHTML = `<a href="/inv/edit/${item.inv_id}" class="btn btn-small btn-edit">Modify</a>`;
+                        
+                        // Delete cell
+                        const deleteCell = row.insertCell(2);
+                        deleteCell.innerHTML = `<a href="/inv/delete/${item.inv_id}" class="btn btn-small btn-delete">Delete</a>`;
+                    });
+                }
+                
+                // Show the inventory display
+                inventoryDisplay.style.display = 'block';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error loading inventory data. Please try again.');
+            });
+    });
+});
+</script>

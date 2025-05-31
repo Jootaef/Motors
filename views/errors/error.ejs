@@ -1,0 +1,16 @@
+<!-- error.ejs -->
+
+<!-- Section 1: Page Title -->
+<% if (title) { %>
+  <h1><%= title %></h1>
+<% } else { %>
+  <h1>Error</h1>
+<% } %>
+
+<!-- Section 2: Error Message -->
+<%- message %>
+
+<!-- Section 3: Optional Humor (Feel free to personalize this!) -->
+<p style="margin-top: 20px; font-style: italic; color: gray;">
+  It looks like you’ve wandered off the beaten path. Don't worry, even the best coders get lost sometimes! 🚧
+</p>
