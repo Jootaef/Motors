@@ -1,47 +1,34 @@
 const { Pool } = require("pg");
 require("dotenv").config();
 
-// Debug logging
 console.log("NODE_ENV:", process.env.NODE_ENV);
 console.log("DATABASE_URL exists:", !!process.env.DATABASE_URL);
 console.log("DATABASE_URL starts with:", process.env.DATABASE_URL?.substring(0, 20));
 
-// Configuración universal que funciona en ambos entornos
-const poolConfig = {
+// Detecta si estás en un entorno que requiere SSL (Render, Heroku, etc.)
+const requiresSSL = process.env.DATABASE_URL?.includes("render.com") || process.env.NODE_ENV === "production";
+
+const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: process.env.NODE_ENV === "production" ? { 
-    rejectUnauthorized: false 
-  } : false,
-  idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 2000
-};
+  ...(requiresSSL && {
+    ssl: {
+      rejectUnauthorized: false,
+    },
+  }),
+});
 
-const pool = new Pool(poolConfig);
-
-// Verificación de conexión al iniciar
-(async () => {
-  try {
-    await pool.query('SELECT NOW()');
-    console.log('Database connected successfully');
-  } catch (err) {
-    console.error('Database connection error:', err);
-    process.exit(1);
-  }
-})();
-
-// Exportación consistente
 module.exports = {
   async query(text, params) {
     try {
-      const start = Date.now();
-      const res = await pool.query(text, params);
-      const duration = Date.now() - start;
-      console.log('Executed query', { text, duration, rows: res.rowCount });
-      return res;
-    } catch (error) {
-      console.error('Error in query', { text, error });
-      throw error;
+      const result = await pool.query(text, params);
+      if (process.env.NODE_ENV === "development") {
+        console.log("executed query", { text });
+      }
+      return result;
+    } catch (err) {
+      console.error("Database query error:", text);
+      throw err;
     }
   },
-  pool // Exportar el pool directamente si es necesario
+  pool,
 };
