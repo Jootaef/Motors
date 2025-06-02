@@ -68,27 +68,26 @@ app.use("/inv", inventoryRoute);
 app.use("/account", accountRoute);
 
 // ----------- ERROR HANDLING ----------- //
-/* ===== 404 Handler ===== */
-app.use((req, res, next) => {
-  next({ status: 404, message: "Page not found." });
-});
-
-/* ===== General Error Handler ===== */
-app.use(async (err, req, res, next) => {
-  const nav = await utils.getNav();
-  const status = err.status || 500;
-  const message =
-    status === 404
-      ? err.message
-      : `Error ${status}: Something went wrong on the server.`;
-
-  res.status(status).render("errors/error", {
-    title: `Error ${status}`,
-    message,
+// 404 Not Found Handler
+app.use(async (req, res, next) => {
+  const nav = await utilities.getNav();
+  res.status(404).render("errors/404", {
+    title: "404 Not Found",
+    message: "The page you requested does not exist.",
     nav,
   });
 });
 
+// 500 Error Handler
+app.use(async (err, req, res, next) => {
+  const nav = await utilities.getNav();
+  console.error(`Error at "${req.originalUrl}":`, err);
+  res.status(err.status || 500).render("errors/500", {
+    title: "500 Server Error",
+    message: err.message || "An unexpected error occurred",
+    nav,
+  });
+});
 
 // ----------- START SERVER ----------- //
 
