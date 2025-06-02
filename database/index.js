@@ -5,7 +5,6 @@ console.log("NODE_ENV:", process.env.NODE_ENV);
 console.log("DATABASE_URL exists:", !!process.env.DATABASE_URL);
 console.log("DATABASE_URL starts with:", process.env.DATABASE_URL?.substring(0, 20));
 
-// Detecta si estás en un entorno que requiere SSL (Render, Heroku, etc.)
 const requiresSSL = process.env.DATABASE_URL?.includes("render.com") || process.env.NODE_ENV === "production";
 
 const pool = new Pool({
