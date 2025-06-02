@@ -68,7 +68,6 @@ app.use("/inv", inventoryRoute);
 app.use("/account", accountRoute);
 
 // ----------- ERROR HANDLING ----------- //
-
 // 404 Not Found Handler
 app.use(async (req, res, next) => {
   const nav = await utilities.getNav();
@@ -88,6 +87,7 @@ app.use(async (err, req, res, next) => {
     error: err.message,
   });
 });
+
 
 // ----------- START SERVER ----------- //
 
