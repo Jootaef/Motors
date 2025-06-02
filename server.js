@@ -79,15 +79,15 @@ app.use(async (req, res, next) => {
 });
 
 // 500 Error Handler
-app.use(async (err, req, res, next) => {
-  const nav = await utilities.getNav();
-  console.error(`Error at "${req.originalUrl}":`, err);
-  res.status(err.status || 500).render("errors/500", {
-    title: "500 Server Error",
-    message: err.message || "An unexpected error occurred",
-    nav,
-  });
+app.get('/trigger-500', async (req, res, next) => {
+  try {
+
+    throw new Error('This is a test 500 error!');
+  } catch (err) {
+    next(err); 
+  }
 });
+
 
 // ----------- START SERVER ----------- //
 
