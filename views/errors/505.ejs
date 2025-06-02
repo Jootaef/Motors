@@ -1,16 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <%- include('../partials/head', {title}) %>
+    <style>
+        .error-container {
+            padding: 2rem;
+            text-align: center;
+        }
+        .error-message {
+            color: #dc3545;
+            margin: 1rem 0;
+        }
+    </style>
 </head>
 <body>
-    <%- include('../partials/header', {nav}) %>
     <main class="error-container">
         <h1><%= title %></h1>
-        <p><%= message %></p>
-        <p>Please try again later or contact support if the problem persists.</p>
-        <a href="/">Return to Homepage</a>
+        <div class="error-message">
+            <p><%= message %></p>
+        </div>
+        <a href="/" class="btn">Return to Home</a>
     </main>
-    <%- include('../partials/footer') %>
 </body>
 </html>

@@ -78,12 +78,12 @@ app.use(async (req, res, next) => {
   });
 });
 
-// General Error Handler (500 and others)
+// 500 Error Handler
 app.use(async (err, req, res, next) => {
   const nav = await utilities.getNav();
-  console.error(`Error at "${req.originalUrl}":`, err.message);
+  console.error(`Error at "${req.originalUrl}":`, err);
   res.status(err.status || 500).render("errors/500", {
-    title: err.status ? `${err.status} Error` : "Server Error",
+    title: "500 Server Error",
     message: err.message || "An unexpected error occurred",
     nav,
   });
