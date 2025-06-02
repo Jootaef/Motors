@@ -73,6 +73,7 @@ app.use(async (req, res, next) => {
   const nav = await utilities.getNav();
   res.status(404).render("errors/404", {
     title: "404 Not Found",
+    message: "The page you requested does not exist.",
     nav,
   });
 });
@@ -82,12 +83,11 @@ app.use(async (err, req, res, next) => {
   const nav = await utilities.getNav();
   console.error(`Error at "${req.originalUrl}":`, err.message);
   res.status(err.status || 500).render("errors/500", {
-    title: err.status || "Server Error",
+    title: err.status ? `${err.status} Error` : "Server Error",
+    message: err.message || "An unexpected error occurred",
     nav,
-    error: err.message,
   });
 });
-
 
 // ----------- START SERVER ----------- //
 

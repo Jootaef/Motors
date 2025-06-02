@@ -1,24 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <%- include('../partials/head') %>
-  <title><%= title %></title>
-  <link rel="stylesheet" href="/css/styles.css" />
+    <%- include('../partials/head', {title}) %>
 </head>
-<body class="retro-bg">
-  <%- include('../partials/header') %>
-  <%- include('../partials/nav') %>
-
-  <main class="container error">
-    <h1><%= title %></h1>
-    <h2><%= error || 'An unexpected server error occurred.' %></h2>
-    <img src="/images/site/error.jpg" alt="Server crash illustration" style="max-width: 300px; margin-top: 20px;">
-    <p style="margin-top: 1rem;">
-      Please try again later or return to the 
-      <a href="/" style="color: #003366; font-weight: bold;">home page</a>.
-    </p>
-  </main>
-
-  <%- include('../partials/footer') %>
+<body>
+    <%- include('../partials/header', {nav}) %>
+    <main class="error-container">
+        <h1><%= title %></h1>
+        <p><%= message %></p>
+        <p>Please try again later or contact support if the problem persists.</p>
+        <a href="/">Return to Homepage</a>
+    </main>
+    <%- include('../partials/footer') %>
 </body>
 </html>
