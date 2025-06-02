@@ -1,10 +1,8 @@
-<!-- Management View -->
 <% locals.title = "Vehicle Management" %>
 
 <div class="management-container">
     <h1><%= title %></h1>
 
-    <!-- Flash Messages -->
     <% if (locals.messages) { %>
         <% locals.messages.forEach(function(message) { %>
             <div class="flash-message notice">
@@ -19,7 +17,6 @@
         </div>
     <% } %>
 
-    <!-- Management Actions -->
     <div class="management-actions">
         <h2>Management Actions</h2>
         
@@ -48,7 +45,6 @@
         </div>
     </div>
 
-    <!-- Inventory Management Table (hidden by default) -->
     <div id="inventoryDisplay" class="inventory-display" style="display: none;">
         <h3>Inventory Items</h3>
         <table id="inventoryTable" class="inventory-table">
@@ -60,7 +56,6 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Inventory items will be loaded here via AJAX -->
             </tbody>
         </table>
     </div>

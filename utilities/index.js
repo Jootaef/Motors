@@ -2,6 +2,7 @@ const invModel = require("../models/inventory-model");
 
 const Util = {};
 
+// Build Navigation Bar
 Util.getNav = async function () {
   let data = await invModel.getClassifications();
   let list = "<ul>";
@@ -13,6 +14,7 @@ Util.getNav = async function () {
   return list;
 };
 
+// Build Classification Grid View
 Util.buildClassificationGrid = async function (data) {
   let grid = "";
   if (data.length > 0) {
@@ -40,6 +42,25 @@ Util.buildClassificationGrid = async function (data) {
   return grid;
 };
 
+// Build Vehicle Detail View
+Util.buildDetailView = function (vehicle) {
+  return `
+  <div class="vehicle-detail-container">
+    <h1>${vehicle.inv_make} ${vehicle.inv_model}</h1>
+    <div class="vehicle-detail-wrapper">
+      <img src="${vehicle.inv_image}" alt="Image of ${vehicle.inv_make} ${vehicle.inv_model}">
+      <div class="vehicle-detail-info">
+        <h2>$${new Intl.NumberFormat("en-US").format(vehicle.inv_price)}</h2>
+        <p><strong>Year:</strong> ${vehicle.inv_year}</p>
+        <p><strong>Mileage:</strong> ${new Intl.NumberFormat("en-US").format(vehicle.inv_miles)} miles</p>
+        <p><strong>Color:</strong> ${vehicle.inv_color}</p>
+        <p><strong>Description:</strong> ${vehicle.inv_description}</p>
+      </div>
+    </div>
+  </div>`;
+};
+
+// Middleware for handling async errors
 Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next);
 
 module.exports = Util;

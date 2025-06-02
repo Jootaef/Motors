@@ -1,4 +1,4 @@
-const utilities = require("../utilities");  // Adjust path as needed
+const utilities = require("../utilities");  
 
 async function buildRegister(req, res, next) {
   let nav = await utilities.getNav();
@@ -16,7 +16,7 @@ const accountController = {
   register: (req, res) => {
     res.send("Register handler not implemented yet.");
   },
-  buildRegister,  // Add this here
+  buildRegister,  
 };
 
 module.exports = accountController;

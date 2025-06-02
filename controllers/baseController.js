@@ -7,7 +7,7 @@ baseController.buildHome = async function(req, res){
   res.render("index", {title: "Home", nav});
 };
 
-// const nav = await getNav();
+
 utilities.handleErrors(baseController.buildHome);
 
 module.exports = baseController;

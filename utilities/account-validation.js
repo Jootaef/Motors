@@ -3,9 +3,7 @@
   const accountModel = require("../models/account-model");
   const validate = {};
   
-  /*  **********************************
-  *  Registration Data Validation Rules
-  * ********************************* */
+
   validate.registationRules = () => {
   return [
     // firstname is required
