@@ -363,3 +363,26 @@ footer {
     text-align: center;
   }
 }
+
+.error {
+    overflow: hidden;
+    position: relative;   
+}
+
+.error * {
+    margin: 0 auto;
+    text-align: center;
+}
+
+.error img {
+    display: block;
+    max-width: 80%;            
+    object-fit: contain;
+    /* opacity: 0.5; */
+}
+
+.error h2 {
+    /* position: absolute; */
+    /* top: 50px; */
+    font-size: medium;
+}
