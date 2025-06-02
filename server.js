@@ -68,24 +68,25 @@ app.use("/inv", inventoryRoute);
 app.use("/account", accountRoute);
 
 // ----------- ERROR HANDLING ----------- //
-// 404 Not Found Handler
-app.use(async (req, res, next) => {
-  const nav = await utilities.getNav();
-  res.status(404).render("errors/404", {
-    title: "404 Not Found",
-    message: "The page you requested does not exist.",
-    nav,
-  });
+/* ===== 404 Handler ===== */
+app.use((req, res, next) => {
+  next({ status: 404, message: "Page not found." });
 });
 
-// 500 Error Handler
-app.get('/trigger-500', async (req, res, next) => {
-  try {
+/* ===== General Error Handler ===== */
+app.use(async (err, req, res, next) => {
+  const nav = await utils.getNav();
+  const status = err.status || 500;
+  const message =
+    status === 404
+      ? err.message
+      : `Error ${status}: Something went wrong on the server.`;
 
-    throw new Error('This is a test 500 error!');
-  } catch (err) {
-    next(err); 
-  }
+  res.status(status).render("errors/error", {
+    title: `Error ${status}`,
+    message,
+    nav,
+  });
 });
 
 
