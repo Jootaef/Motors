@@ -6,41 +6,42 @@ console.log("NODE_ENV:", process.env.NODE_ENV);
 console.log("DATABASE_URL exists:", !!process.env.DATABASE_URL);
 console.log("DATABASE_URL starts with:", process.env.DATABASE_URL?.substring(0, 20));
 
-let pool;
+// Configuración universal que funciona en ambos entornos
+const poolConfig = {
+  connectionString: process.env.DATABASE_URL,
+  ssl: process.env.NODE_ENV === "production" ? { 
+    rejectUnauthorized: false 
+  } : false,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000
+};
 
-if (process.env.NODE_ENV === "development") {
-  pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    // Removed the SSL setting — local DB doesn't need it
-  });
-} else {
-  // Production configuration
-  if (!process.env.DATABASE_URL) {
-    throw new Error("DATABASE_URL environment variable is required for production");
+const pool = new Pool(poolConfig);
+
+// Verificación de conexión al iniciar
+(async () => {
+  try {
+    await pool.query('SELECT NOW()');
+    console.log('Database connected successfully');
+  } catch (err) {
+    console.error('Database connection error:', err);
+    process.exit(1);
   }
-  
-  pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: {
-      rejectUnauthorized: false, // Use SSL only in production (like on Render or Heroku)
-    },
-  });
-}
+})();
 
-// Consistent export structure for both environments
+// Exportación consistente
 module.exports = {
   async query(text, params) {
     try {
+      const start = Date.now();
       const res = await pool.query(text, params);
-      if (process.env.NODE_ENV === "development") {
-        console.log("executed query", { text });
-      }
+      const duration = Date.now() - start;
+      console.log('Executed query', { text, duration, rows: res.rowCount });
       return res;
     } catch (error) {
-      console.error("error in query", { text });
+      console.error('Error in query', { text, error });
       throw error;
     }
   },
-  // Also export the pool directly if needed elsewhere
-  pool
+  pool // Exportar el pool directamente si es necesario
 };
