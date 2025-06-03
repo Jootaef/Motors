@@ -1,99 +1,107 @@
-// Load environment variables from .env file
-const env = require("dotenv").config();
+/* ******************************************
+ * This server.js file is the primary file of the 
+ * application. It is used to control the project.
+ *******************************************/
+/* ***********************
+ * Require Statements
+ *************************/
+const express = require("express")
+const expressLayouts = require("express-ejs-layouts")
+const env = require("dotenv").config()
+const app = express()
+const static = require("./routes/static")
+const baseController = require("./controllers/baseController")
+const inventoryRoute = require("./routes/inventoryRoute")
+const utilities = require("./utilities/")
+const session = require("express-session")
+const pool = require('./database/')
+const accountRoute = require('./routes/accountRoute')
+const bodyParser = require("body-parser")
 
-// Core imports
-const express = require("express");
-const expressLayouts = require("express-ejs-layouts");
-const app = express();
+/* ***********************
+ * Middleware
+ * ************************/
+app.use(session({
+  store: new (require('connect-pg-simple')(session))({
+    createTableIfMissing: true,
+    pool,
+  }),
+  secret: process.env.SESSION_SECRET,
+  resave: true,
+  saveUninitialized: true,
+  name: 'sessionId',
+}))
 
-// Session and database session store
-const session = require("express-session");
-const pgSession = require("connect-pg-simple")(session);
-const pool = require("./database/");
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
-// Flash messages
-const flash = require("connect-flash");
+// Express Messages Middleware
+app.use(require('connect-flash')())
+app.use(function(req, res, next){
+  res.locals.messages = require('express-messages')(req, res)
+  next()
+})
 
-// Application routes and utilities
-const static = require("./routes/static");
-const baseController = require("./controllers/baseController");
-const inventoryRoute = require("./routes/inventoryRoute");
-const accountRoute = require("./routes/accountRoute");
-const utilities = require("./utilities/");
+/* ***********************
+ * Routes
+ *************************/
+app.set("view engine", "ejs")
+app.use(expressLayouts)
+app.set("layout", "./layouts/layout")
 
-// ----------- MIDDLEWARE CONFIGURATION ----------- //
+/* ***********************
+ * Routes
+ *************************/
+app.use(express.static('public'));
+app.use(static)
 
-// Configure session middleware with PostgreSQL session store
-app.use(
-  session({
-    store: new pgSession({
-      createTableIfMissing: true,
-      pool,
-    }),
-    secret: process.env.SESSION_SECRET || "fallbackSecret123",
-    resave: false,
-    saveUninitialized: false,
-    name: "sessionId",
-    cookie: {
-      secure: false, // Set to true if using HTTPS
-      maxAge: 1000 * 60 * 60 * 2, // Session duration: 2 hours
-    },
-  })
-);
+// Index Route
+app.get("/", utilities.handleErrors(baseController.buildHome))
 
-// Flash message support
-app.use(flash());
-app.use(function (req, res, next) {
-  res.locals.messages = require("express-messages")(req, res);
-  next();
+// Inventory Route
+app.use("/inv", inventoryRoute)
+
+// Account Route
+app.use('/account', accountRoute)
+
+// Trigger 500 Error Route
+app.get('/error', (req, res, next) => {
+  const err = new Error('Testing for Error Status 500')
+  err.status = 500
+  next(err)
 });
 
-// Set EJS as the view engine and layout system
-app.set("view engine", "ejs");
-app.use(expressLayouts);
-app.set("layout", "./layouts/layout"); // Default layout
-
-// Serve static files (CSS, images, JS, etc.) from the "public" folder
-app.use(express.static("public"));
-
-// ----------- ROUTES ----------- //
-
-// Home route
-app.get("/", utilities.handleErrors(baseController.buildHome));
-
-// Inventory-related routes
-app.use("/inv", inventoryRoute);
-
-// Account-related routes (login, register, etc.)
-app.use("/account", accountRoute);
-
-// ----------- ERROR HANDLING ----------- //
-// 404 Not Found Handler
+// File Not Found Route - must be last route in list
 app.use(async (req, res, next) => {
-  const nav = await utilities.getNav();
-  res.status(404).render("errors/404", {
-    title: "404 Not Found",
-    message: "The page you requested does not exist.",
-    nav,
-  });
-});
+  next({status: 404, message: 'Sorry, we appear to have lost that page.'})
+})
 
-// 500 Error Handler
+/* ***********************
+* Express Error Handler
+* Place after all other middleware
+*************************/
 app.use(async (err, req, res, next) => {
-  const nav = await utilities.getNav();
-  console.error(`Error at "${req.originalUrl}":`, err);
-  res.status(err.status || 500).render("errors/500", {
-    title: "500 Server Error",
-    message: err.message || "An unexpected error occurred",
-    nav,
-  });
-});
+  let nav = await utilities.getNav()
+  console.error(`Error at: "${req.originalUrl}": ${err.message}`)
+  let message
+  if (err.status == 404) { message = err.message } else { message = 'Oh no! There was a crash. Maybe try a different route?' }
+  res.status(err.status || 500).render("errors/error", {
+    title: err.status || 'Server Error',
+    message,
+    nav
+  })
+})
 
-// ----------- START SERVER ----------- //
+/* ***********************
+ * Local Server Information
+ * Values from .env (environment) file
+ *************************/
+const port = process.env.PORT || 5500
+const host = process.env.HOST || 'localhost'
 
-const port = process.env.PORT || 5501;
-const host = process.env.HOST || "localhost";
-
+/* ***********************
+ * Log statement to confirm server operation
+ *************************/
 app.listen(port, () => {
-  console.log(`App listening at http://${host}:${port}`);
-});
+  console.log(`app listening on ${host}:${port}`)
+})

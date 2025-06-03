@@ -81,7 +81,7 @@ ul {
 }
 
 /* Header */
-header {
+#top-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -94,35 +94,48 @@ header {
   font-weight: 600;
 }
 
+.siteName a {
+  text-decoration: none;
+  color: var(--clr-dark1);
+}
+
 #tools {
   text-align: right;
 }
 
+#tools a {
+  text-decoration: none;
+  color: var(--clr-dark1);
+  font-size: 1rem;
+}
+
 /* Navigation */
-.navigation {
+nav {
   background-color: var(--clr-dark2);
-  padding: 1rem 0;
+  padding: 0.5rem 0;
 }
 
-.navigation ul {
+nav ul {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
 }
 
-.navigation li {
-  padding: 0.5rem;
+nav li {
+  padding: 0.5rem 1rem;
+  list-style: none;
 }
 
-.navigation a {
+nav a {
   color: var(--clr-light1);
   font-weight: 500;
   padding: 0.5rem;
+  transition: all 0.3s ease;
 }
 
-.navigation a:hover {
-  background-color: var(--clr-light2);
-  color: var(--clr-dark2);
+nav a:hover {
+  color: var(--clr-light3);
 }
 
 /* Main Content */
@@ -133,7 +146,7 @@ main {
 /* Hero Section */
 .hero {
   position: relative;
-  min-height: 200px;
+  width: 100%;
   margin-bottom: 2rem;
 }
 
@@ -143,26 +156,91 @@ main {
   object-fit: cover;
 }
 
-#main-float-card {
+.herolabel {
+  position: absolute;
+  top: 20%;
+  left: 10%;
   background: rgba(255, 255, 255, 0.7);
-  padding: 1rem;
-  margin-top: 1rem;
+  color: var(--clr-dark2);
+  border: 1px solid rgba(0, 0, 0, 0.75);
+  padding: 1.5rem;
+  box-shadow: 0 0 3rem #fff;
+  text-align: center;
+  max-width: 400px;
+}
+
+.herolabel h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.herolabel p {
+  margin: 0;
+  padding: 0.25rem;
+  font-weight: 700;
+  font-size: 1.1rem;
 }
 
 /* Grid Layout */
-.grid-container {
+.reviews-upgrades {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: 2fr 1fr;
   gap: 2rem;
   padding: 1rem;
 }
 
-.card {
-  text-align: center;
-  background: var(--clr-light1);
+.upgrades {
   padding: 1rem;
+}
+
+.upgrades h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.upgrades-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.upgrades-items {
+  text-align: center;
+  padding: 1rem;
+  background: var(--clr-light1);
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.upgrades-items img {
+  width: 30%;
+  height: auto;
+  margin-bottom: 0.5rem;
+}
+
+.upgrades-items a {
+  display: block;
+  font-weight: bold;
+  text-decoration: none;
+  margin-top: 0.5rem;
+  color: var(--clr-medium2);
+}
+
+.reviews {
+  padding: 1rem;
+}
+
+.reviews h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.reviews ul {
+  padding-left: 1rem;
+}
+
+.reviews li {
+  margin-bottom: 0.5rem;
 }
 
 /* Vehicle Display */
@@ -171,9 +249,10 @@ main {
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1.5rem;
   padding: 1rem;
+  margin: 0 auto;
 }
 
-#inv-display li {
+.inv-preview {
   background: var(--clr-light1);
   border: 1px solid var(--clr-medium2);
   border-radius: 8px;
@@ -182,7 +261,7 @@ main {
   transition: transform 0.3s ease;
 }
 
-#inv-display li:hover {
+.inv-preview:hover {
   transform: translateY(-5px);
 }
 
@@ -202,28 +281,58 @@ main {
 /* Vehicle Detail Page */
 .vehicle-detail {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: 2rem;
+  padding: 1rem;
+  border: 2px solid var(--clr-light3);
+  border-radius: 8px;
 }
 
-.detail-image img {
+.vehicle-img {
+  max-width: 100%;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-.detail-info {
+.vehicle-info {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
-.specs {
-  background: var(--clr-light2);
-  padding: 1.5rem;
-  border-radius: 8px;
+.vehicle-info h2 {
+  font-size: 1.75rem;
+}
+
+.vehicle-info p {
+  font-size: 1.1rem;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.vehicle-info p strong {
+  color: var(--clr-dark1);
 }
 
 /* Forms */
+/* Forms - Enhanced Styles */
+.login, 
+.register,
+.addClassification, 
+.addInventory {
+  width: 100%;
+  max-width: 600px;
+  padding: 2rem;
+  margin: 2rem auto;
+  box-sizing: border-box;
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .form-container {
   width: 95%;
   max-width: 600px;
@@ -231,30 +340,182 @@ main {
 }
 
 .form {
-  background: var(--clr-medium2);
-  padding: 1.5rem;
-  border-radius: 8px;
+  background: var(--clr-light1);
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.form:hover {
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+.form-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  position: relative;
+  padding-bottom: 1rem;
+}
+
+.form-header h2 {
+  font-size: 1.8rem;
+  color: var(--clr-dark2);
+  margin-bottom: 0.5rem;
+}
+
+.form-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 25%;
+  width: 50%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--clr-medium1), var(--clr-medium2));
+  border-radius: 3px;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+  position: relative;
 }
 
 .form label {
   display: block;
-  margin-bottom: 0.5rem;
-  font-weight: bold;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+  color: var(--clr-dark2);
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
 }
 
 .form input,
 .form select,
 .form textarea {
   width: 100%;
-  padding: 0.8rem;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-family: var(--font-paragraph);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.form input:focus,
+.form select:focus,
+.form textarea:focus {
+  outline: none;
+  border-color: var(--clr-medium2);
+  box-shadow: 0 0 0 3px rgba(29, 135, 227, 0.2);
+  background-color: white;
+}
+
+.form input::placeholder {
+  color: #a0a0a0;
+  opacity: 1;
+}
+
+.form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* Select dropdown styling */
+.form select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23003366' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1rem;
+  padding-right: 2.5rem;
+}
+
+/* Form footer for additional links */
+.form-footer {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--clr-dark1);
+}
+
+.form-footer a {
+  color: var(--clr-medium2);
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.form-footer a:hover {
+  color: var(--clr-dark2);
+  text-decoration: underline;
+}
+
+/* Special styling for error messages */
+.error-message {
+  color: #e74c3c;
+  font-size: 0.85rem;
+  margin-top: -0.5rem;
   margin-bottom: 1rem;
-  border: 1px solid var(--clr-dark1);
-  border-radius: 4px;
+  display: block;
+}
+
+/* Success message styling */
+.success-message {
+  color: #2ecc71;
+  background-color: rgba(46, 204, 113, 0.1);
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  border-left: 4px solid #2ecc71;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .login, 
+  .register,
+  .addClassification, 
+  .addInventory {
+    padding: 1.5rem;
+  }
+  
+  .form {
+    padding: 1.5rem;
+  }
+  
+  .form-header h2 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .form {
+    padding: 1.25rem;
+    border-radius: 8px;
+  }
+  
+  .form-header h2 {
+    font-size: 1.3rem;
+  }
+  
+  .form input,
+  .form select,
+  .form textarea {
+    padding: 0.8rem;
+  }
 }
 
 /* Buttons */
 button,
-.submitBtn {
+.submitBtn,
+.login button, 
+.register button,
+.addClassification button, 
+.addInventory button {
   background: var(--clr-button1);
   color: white;
   border: none;
@@ -267,10 +528,15 @@ button,
   max-width: 300px;
   margin: 0.5rem auto;
   display: block;
+  font-family: var(--font-paragraph);
 }
 
 button:hover,
-.submitBtn:hover {
+.submitBtn:hover,
+.login button:hover, 
+.register button:hover,
+.addClassification button:hover, 
+.addInventory button:hover {
   background: var(--clr-button2);
 }
 
@@ -279,24 +545,56 @@ button:active,
   transform: translateY(2px);
 }
 
-/* Footer */
-footer {
+/* Management View */
+.manageInventory {
   text-align: center;
-  padding: 1rem;
-  background: var(--clr-dark2);
+  padding: 2rem;
+}
+
+.manageInventory h1 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.manageInventory ul {
+  padding: 0;
+}
+
+.manageInventory li {
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.manageInventory a {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: var(--clr-medium2);
   color: white;
-  margin-top: auto;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.manageInventory a:hover {
+  background: var(--clr-dark2);
 }
 
 /* Error Page */
 .error {
   text-align: center;
   padding: 2rem;
+  overflow: hidden;
+  position: relative;
 }
 
 .error img {
   max-width: 80%;
   margin: 0 auto;
+  object-fit: contain;
+}
+
+.error h2 {
+  font-size: 1.5rem;
+  margin-top: 1rem;
 }
 
 /* Media Queries */
@@ -309,21 +607,21 @@ footer {
     font-size: 2rem;
   }
   
-  .navigation ul {
-    flex-direction: row;
-    justify-content: center;
+  #tools a {
+    font-size: 1.1rem;
   }
   
-  .hero {
-    min-height: 400px;
-  }
-  
-  .vehicle-detail {
-    grid-template-columns: 1fr 1fr;
+  .herolabel {
+    top: 20%;
+    left: 10%;
   }
   
   button,
-  .submitBtn {
+  .submitBtn,
+  .login button, 
+  .register button,
+  .addClassification button, 
+  .addInventory button {
     width: auto;
     display: inline-block;
   }
@@ -337,23 +635,26 @@ footer {
   h1 {
     font-size: 2.5rem;
   }
+}
+
+@media (max-width: 800px) {
+  .reviews-upgrades {
+    grid-template-columns: 1fr;
+  }
   
-  #main-float-card {
-    position: absolute;
-    top: 2rem;
-    left: 2rem;
-    max-width: 300px;
+  .vehicle-detail {
+    grid-template-columns: 1fr;
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 600px) {
   #wrapper {
     width: 100%;
     padding: 0.5rem;
     border: none;
   }
   
-  header {
+  #top-header {
     flex-direction: column;
     text-align: center;
   }
@@ -362,27 +663,24 @@ footer {
     margin-top: 1rem;
     text-align: center;
   }
-}
-
-.error {
-    overflow: hidden;
-    position: relative;   
-}
-
-.error * {
-    margin: 0 auto;
-    text-align: center;
-}
-
-.error img {
-    display: block;
-    max-width: 80%;            
-    object-fit: contain;
-    /* opacity: 0.5; */
-}
-
-.error h2 {
-    /* position: absolute; */
-    /* top: 50px; */
-    font-size: medium;
+  
+  nav ul {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .herolabel {
+    position: static;
+    max-width: 100%;
+    margin-top: 1rem;
+    box-shadow: none;
+  }
+  
+  #inv-display {
+    grid-template-columns: 1fr;
+  }
+  
+  .upgrades-grid {
+    grid-template-columns: 1fr;
+  }
 }

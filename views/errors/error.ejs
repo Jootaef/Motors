@@ -1,34 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <style>
-    .error-container {
-      padding: 2rem;
-      text-align: center;
-    }
-    .error-message {
-      color: #dc3545;
-      margin: 1rem 0;
-    }
-    .btn {
-      display: inline-block;
-      padding: 0.5rem 1rem;
-      background-color: #003366;
-      color: white;
-      text-decoration: none;
-      border-radius: 4px;
-    }
-  </style>
-  <title><%= title %></title>
-</head>
-<body>
-  <main class="error-container">
-    <h1><%= title %></h1>
-    <div class="error-message">
-            <img src="../../images/site/error.jpg" alt="crash">
-      <p><%= message %></p>
-    </div>
-    <a href="/" class="btn">Return to Homepage</a>
-  </main>
-</body>
-</html>
+<h1 class="error-title"><%= title %></h1>
+
+<div class="error-view">
+    <p>Whelp, sorry that you got brought here...</p>
+    <p>Something went wrong while transporting you...</p>
+    <p><a href="/">Return Home Safely</a></p>
+</div>

@@ -1,8 +1,11 @@
 <% if (title) { %>
-<h1><%= title %></h1>
-<% } else {
-  res.redirect('/')
-} %>
+<h1>
+    <%= title %>
+</h1>
+<% } else { res.redirect('/')} %>
 
-<%# messages() %>
-<%- grid %>
+<% messages() %>
+
+<section class="vehicle-section">
+    <%- grid %>
+</section>

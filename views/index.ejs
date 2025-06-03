@@ -1,59 +1,54 @@
+<h1>Welcome to CSE Motors!</h1>
+
+<%- messages() %>
+
 <div class="hero">
-    <img src="images/vehicles/delorean.jpg" max-width=1000px max-height=510px alt="Delorean Car">
-    <h1>Welcome to CSE Motors!</h1>
-    <%- messages() %>
-    <div id="main-float-card">
+    <picture>
+        <source srcset="/images/vehicles/delorean-tn.jpg" media="(max-width: 600px)">
+        <img src="/images/vehicles/delorean.jpg" alt="DMC Delorean">
+    </picture>
+
+    <div class="herolabel">
         <h2>DMC Delorean</h2>
-        <ul>
-            <li>3 Cup holders</li>
-            <li>Superman doors</li>
-            <li>Fuzzy dice!</li>
-        </ul>
-        <button class="action">Own Today</button>
-    </div>                
-</div>
-<section class="grid-column">
-    <div class="child">
-        <!-- <div> -->
-            <h3>Delorian Upgrades</h3>
-            <div class="grid">
-                <div class="card">
-                    <div>
-                        <img src="images/upgrades/flux-cap.png" alt ="Flux Capacitor">
-                    </div>
-                    <a href="/">Flux Capacitor</a>
-                </div>
-                <div class="card">
-                    <div>
-                        <img src="images/upgrades/flame.jpg" alt ="Flame Decals">
-                    </div>
-                    <a href="/">Flame Decals</a>
-                </div>
-                <div class="card">
-                    <div>
-                        <img src="images/upgrades/bumper_sticker.jpg" alt ="Bumper Stickers">
-                    </div>
-                    <a href="/">Bumper Stickers</a>
-                </div>
-                <div class="card">
-                    <div>
-                        <img src="images/upgrades/hub-cap.jpg" alt ="Hub Caps">
-                    </div>
-                    <a href="/">Hub Caps</a>
-                </div>
-            </div>
-        <!-- </div> -->
+        <p>Time Travelling Capabilities [Once you reach 88 mph]</p>
+        <p>Superman Doors</p>
+        <p>With Cup Holders</p>
+        <button>Buy Today</button>
     </div>
-    <div class="child reviews">
-        <h3>DMC Delorian Reviews</h3>
+</div>
+
+<div class="reviews-upgrades">
+    <div class="upgrades">
+        <h2>Delorean Upgrades</h2>
+        <div class="upgrades-grid">
+            <div class="upgrades-items">
+                <img src="/images/upgrades/bumper_sticker.jpg" alt="Bumper Sticker">
+                <a href="" title="Bumper Sticker">Bumper Sticker</a>
+            </div>
+            <div class="upgrades-items">
+                <img src="/images/upgrades/flame.jpg" alt="Flame Decals">
+                <a href="" title="Flame Decals">Flame Decals</a>
+            </div>
+            <div class="upgrades-items">
+                <img src="/images/upgrades/flux-cap.png" alt="Flux Cap">
+                <a href="" title="Flux Cap">Flux Cap</a>
+            </div>
+            <div class="upgrades-items">
+                <img src="/images/upgrades/hub-cap.jpg" alt="Hub Cap">
+                <a href="" title="Hub Cap">Hub Cap</a>
+            </div>
+        </div>
+    </div>
+    
+
+    <div class="reviews">
+        <h3>DMC Delorean Reviews</h3>
         <ul>
-            <li>"So fast it's almost like traveling in time." (4/5)</li>
+            <li>"So fast it's almost like travelling in time." (4/5)</li>
             <li>"Coolest ride on the road." (4/5)</li>
             <li>"I'm feeling McFly!" (5/5)</li>
-            <li>"The most futuristic ride of our day." (4.5/5)</li>
-            <li>"80's livin and I love it!" (5/5)</li>
+            <li>"80's living and I'm loving it!" (5/5)</li>
+            <li>"Wish that I could actually go 88 miles per hour" (3/5)</li>
         </ul>
     </div>
-</section>
-
-
+</div>
