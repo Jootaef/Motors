@@ -1,100 +1,168 @@
-/******* Change Box Model ***************/
+/******* Base Styles *******/
 *,
 *:before,
 *:after {
   box-sizing: border-box;
 }
 
-.top-nav {
-  font-family: 'Roboto', sans-serif;
+* {
+  padding: 0;
+  margin: 0;
 }
 
-.siteName, #tools {
-  font-family: 'Oswald', sans-serif;
+:root {
+  --clr-light1: #ffffff;
+  --clr-light2: #F3E9D2;
+  --clr-light3: #ffdcac;
+  --clr-medium1: #F49E4C;
+  --clr-medium2: #1d87e3;
+  --clr-dark1: #003366;
+  --clr-dark2: #003366;
+  --clr-button1: var(--clr-medium1);
+  --clr-button2: #f68924;
+  --clr-button3: #fabf88;
+
+  --font-heading: "Noto Serif", serif;
+  --font-paragraph: "Roboto", sans-serif;
+  
+  font-size: 16px;
 }
 
-h1, h2, h3 {
-  font-family: 'Oswald', sans-serif;
+body {
+  font-family: var(--font-paragraph);
+  line-height: 1.6;
+  color: var(--clr-dark1);
+  overflow-x: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-image: url("/images/site/small_check.jpg");
 }
 
-.herolabel {
-  font-family: 'Roboto', sans-serif;
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--clr-dark2);
+  margin-bottom: 1rem;
 }
 
-.herolabel button {
-  font-family: 'Roboto', sans-serif;
+h1 {
+  font-size: 2rem;
 }
 
-.reviews-upgrades {
-  font-family: 'Roboto', sans-serif;
+p {
+  margin-bottom: 1rem;
 }
 
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.3s ease;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+ul {
+  list-style: none;
+}
+
+/* Layout */
+#wrapper {
+  background-color: var(--clr-light1);
+  width: 95%;
+  max-width: 1200px;
+  margin: 1rem auto;
+  padding: 1rem;
+  flex: 1;
+  border: 5px ridge var(--clr-medium2);
+}
+
+/* Header */
 #top-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--clr-medium2);
+}
+
+.siteName {
+  font-size: 1.5rem;
+  font-weight: 600;
 }
 
 .siteName a {
   text-decoration: none;
-  color: #000;
-  font-size: 40px;
+  color: var(--clr-dark1);
+}
+
+#tools {
+  text-align: right;
 }
 
 #tools a {
   text-decoration: none;
-  color: #000;
-  font-size: 20px;
+  color: var(--clr-dark1);
+  font-size: 1rem;
 }
 
+/* Navigation */
 nav {
-  background-color: #013648;
-  padding: 5px;
+  background-color: var(--clr-dark2);
+  padding: 0.5rem 0;
 }
 
 nav ul {
   display: flex;
-  justify-content: space-between;
-  padding: 1em;
+  justify-content: center;
+  padding: 0;
   margin: 0;
-  text-decoration: none;
 }
 
 nav li {
+  padding: 0.5rem 1rem;
   list-style: none;
-  font-size: 20px;
-  font-weight: 500;
 }
 
 nav a {
-  color: #81b1ce;
+  color: var(--clr-light1);
+  font-weight: 500;
+  padding: 0.5rem;
+  transition: all 0.3s ease;
 }
 
 nav a:hover {
-  color: #aad6ec;
+  color: var(--clr-light3);
 }
 
-/** Home Page **/
+/* Main Content */
+main {
+  padding: 2rem 0;
+}
 
+/* Hero Section */
 .hero {
-  width: 100%;
   position: relative;
+  width: 100%;
+  margin-bottom: 2rem;
 }
 
 .hero img {
   width: 100%;
-  height: 100%;
-  display: block;
+  height: auto;
+  object-fit: cover;
 }
 
 .herolabel {
   position: absolute;
   top: 20%;
   left: 10%;
-  background: #ffffff80;
-  color: #000547;
-  border: 1px solid rgba(0, 0, 0, .75);
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--clr-dark2);
+  border: 1px solid rgba(0, 0, 0, 0.75);
   padding: 1.5rem;
   box-shadow: 0 0 3rem #fff;
   text-align: center;
@@ -102,74 +170,27 @@ nav a:hover {
 }
 
 .herolabel h2 {
-  font-size: 30px;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .herolabel p {
   margin: 0;
-  padding: .25rem;
+  padding: 0.25rem;
   font-weight: 700;
-  font-size: 1.5rem;
+  font-size: 1.1rem;
 }
 
-.herolabel button {
-  font-size: 20px;
-  cursor: pointer;
-  display: inline-block;
-}
-
-@media (max-width: 1200px) {
-  .herolabel {
-    top: 20%;
-    left: 5%;
-    padding: 0.5rem;
-    font-size: 1rem;
-    max-width: 400px;
-  }
-
-  .herolabel h2 {
-    font-size: 25px;
-  }
-
-  .herolabel p {
-    font-size: 20px;
-  }
-
-  .herolabel button {
-    font-size: 17px;
-  }
-}
-
-@media (max-width: 600px) {
-  .herolabel {
-    top: 10%;
-    left: 5%;
-    padding: 0.5rem;
-    max-width: 300px;
-  }
-
-  .herolabel h2 {
-    font-size: 20px;
-  }
-
-  .herolabel p {
-    font-size: 15px;
-  }
-
-  .herolabel button {
-    font-size: 13px;
-  }
-}
-
+/* Grid Layout */
 .reviews-upgrades {
   display: grid;
   grid-template-columns: 2fr 1fr;
-  gap: 10px;
-  padding: 2rem;
+  gap: 2rem;
+  padding: 1rem;
 }
 
 .upgrades {
-  padding: 20px;
+  padding: 1rem;
 }
 
 .upgrades h2 {
@@ -179,14 +200,16 @@ nav a:hover {
 
 .upgrades-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
 }
 
 .upgrades-items {
   text-align: center;
   padding: 1rem;
-  margin-bottom: 1rem;
+  background: var(--clr-light1);
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .upgrades-items img {
@@ -200,7 +223,7 @@ nav a:hover {
   font-weight: bold;
   text-decoration: none;
   margin-top: 0.5rem;
-  color: #0400ff;
+  color: var(--clr-medium2);
 }
 
 .reviews {
@@ -208,7 +231,8 @@ nav a:hover {
 }
 
 .reviews h3 {
-  font-size: 30px;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .reviews ul {
@@ -216,118 +240,68 @@ nav a:hover {
 }
 
 .reviews li {
-  font-size: 25px;
-  margin-bottom: 10px;
+  margin-bottom: 0.5rem;
 }
 
-@media (max-width: 800px) {
-  .reviews-upgrades {
-    grid-template-columns: 1fr;
-  }
-}
-
-/** error.ejs **/
-
-.error-title {
-  font-family: Arial, sans-serif;
-  font-size: 40px;
-  text-align: center;
-}
-
-.error-view {
-  font-family: Arial, sans-serif;
-  font-size: 20px;
-  text-align: center;
-} 
-
-/** Classification **/
-
+/* Vehicle Display */
 #inv-display {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  text-align: center;
-  list-style: none;
-  padding: 0;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem;
   margin: 0 auto;
-}
-
-#inv-display hr {
-  border: none;
 }
 
 .inv-preview {
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 20px;
+  background: var(--clr-light1);
+  border: 1px solid var(--clr-medium2);
+  border-radius: 8px;
+  padding: 1rem;
   text-align: center;
+  transition: transform 0.3s ease;
 }
 
-.inv-preview img {
-  width: 300px;
-  height: auto;
+.inv-preview:hover {
+  transform: translateY(-5px);
 }
 
-@media (max-width: 1000px) {
-  #inv-display {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    text-align: center;
-    justify-content: center;
-  }
+.namePrice {
+  margin-top: 1rem;
 }
 
-@media (max-width: 720px) {
-  #inv-display {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    gap: 10px;
-    text-align: center;
-    justify-content: center;
-  }
+.namePrice h2 {
+  font-size: 1.25rem;
 }
 
-/** Inventory **/
+.namePrice span {
+  font-weight: bold;
+  color: var(--clr-dark2);
+}
 
-.vehicle-section {
+/* Vehicle Detail Page */
+.vehicle-detail {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  gap: 2rem;
   padding: 1rem;
-}
-
-.vehicle-detail-section {
-  padding: 20px;
-  max-width: 1000px;
-  margin: 0 auto;
-  font-family: Arial, sans-serif;
-  color: #304146;
-}
-
-.vehicle-detail {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  align-items: flex-start;
-  border: 2px solid lightgray;
+  border: 2px solid var(--clr-light3);
   border-radius: 8px;
-  padding: 15px;
 }
 
 .vehicle-img {
-  max-width: 400px;
-  width: 100%;
+  max-width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
 .vehicle-info {
-  flex: 2 1 500px;
   display: flex;
   flex-direction: column;
+  gap: 1rem;
 }
 
 .vehicle-info h2 {
-  font-size: 30px;
-  color: black;
+  font-size: 1.75rem;
 }
 
 .vehicle-info p {
@@ -337,210 +311,376 @@ nav a:hover {
 }
 
 .vehicle-info p strong {
-  color: black;
+  color: var(--clr-dark1);
 }
 
-@media (max-width: 720px) {
-  .vehicle-detail {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .vehicle-img {
-    max-width: 100%;
-    width: 100%;
-  }
-
-  .vehicle-info {
-    width: 100%;
-  }
-}
-
-/* Login, Register, & Account Management */
-
-.login, .register, .update-account, .change-password {
-  height: 100%;
+/* Forms */
+/* Forms - Enhanced Styles */
+.login, 
+.register,
+.addClassification, 
+.addInventory {
   width: 100%;
-  padding: 100px;
-  font-family: Arial, sans-serif;
+  max-width: 600px;
+  padding: 2rem;
+  margin: 2rem auto;
   box-sizing: border-box;
+  animation: fadeIn 0.5s ease-out;
 }
 
-.login label, .register label, .update-account label, .change-password label {
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.form-container {
+  width: 95%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.form {
+  background: var(--clr-light1);
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.form:hover {
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+.form-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  position: relative;
+  padding-bottom: 1rem;
+}
+
+.form-header h2 {
+  font-size: 1.8rem;
+  color: var(--clr-dark2);
+  margin-bottom: 0.5rem;
+}
+
+.form-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 25%;
+  width: 50%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--clr-medium1), var(--clr-medium2));
+  border-radius: 3px;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.form label {
   display: block;
-  padding: 10px;
-  font-weight: bold;
-  color: #333;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+  color: var(--clr-dark2);
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
 }
 
-.login input, .register input, .update-account input, .change-password input {
+.form input,
+.form select,
+.form textarea {
   width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 15px;
-  box-sizing: border-box;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-family: var(--font-paragraph);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background-color: rgba(255, 255, 255, 0.8);
 }
 
-.login button, .register button, .update-account button, .change-password button {
-  width: 100%;
-  padding: 15px;
-  margin-top: 10px;
-  background-color: #4681f4;
-  color: white;
-  border-radius: 5px;
-  font-size: 15px;
-  cursor: pointer;
+.form input:focus,
+.form select:focus,
+.form textarea:focus {
+  outline: none;
+  border-color: var(--clr-medium2);
+  box-shadow: 0 0 0 3px rgba(29, 135, 227, 0.2);
+  background-color: white;
 }
 
-.login button:hover, .register button:hover, .update-account button:hover, .change-password button:hover {
-  background-color: #6c9dff;
+.form input::placeholder {
+  color: #a0a0a0;
+  opacity: 1;
 }
 
-.login p {
-  font-family: Arial, sans-serif;
+.form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* Select dropdown styling */
+.form select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23003366' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1rem;
+  padding-right: 2.5rem;
+}
+
+/* Form footer for additional links */
+.form-footer {
+  margin-top: 2rem;
   text-align: center;
+  font-size: 0.9rem;
+  color: var(--clr-dark1);
 }
 
-#showPw {
-  cursor: pointer;
-  color: blue;
-  padding: 5px;
-}
-
-.notice {
-  font-family: Arial, sans-serif;
-  list-style-type: none;
-  text-align: center;
-}
-
-.login-message {
-  font-family: Arial, sans-serif;
-  list-style-type: none;
-  text-align: center;
-}
-
-.register-message {
-  font-family: Arial, sans-serif;
-  list-style-type: none;
-  text-align: center;
-}
-
-.acc-manage {
-  margin: 20px auto;
-  padding: 40px;
-  font-family: Arial, sans-serif;
-  text-align: center;
-}
-
-.acc-manage h2 {
-  font-size: 40px;
-  margin-bottom: 20px;
-}
-
-.acc-manage h3 {
-  font-size: 30px;
-}
-
-.acc-manage p {
-  font-size: 20px;
-}
-
-.acc-manage a {
+.form-footer a {
+  color: var(--clr-medium2);
+  font-weight: 600;
   text-decoration: none;
-  text-align: center;
+  transition: all 0.2s ease;
 }
 
-.acc-manage a:hover {
-  color: #0072b0;
+.form-footer a:hover {
+  color: var(--clr-dark2);
   text-decoration: underline;
 }
 
-/* addInventory, addClassification, & manageInventory */
-
-.manageInventory h1 {
-  font-family: 'Oswald', sans-serif;
-  padding: 10px;
+/* Special styling for error messages */
+.error-message {
+  color: #e74c3c;
+  font-size: 0.85rem;
+  margin-top: -0.5rem;
+  margin-bottom: 1rem;
+  display: block;
 }
 
-.manageInventory ul {
-  font-family: Arial, sans-serif;
+/* Success message styling */
+.success-message {
+  color: #2ecc71;
+  background-color: rgba(46, 204, 113, 0.1);
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  border-left: 4px solid #2ecc71;
 }
 
-.addClassification, .addInventory, .update-inventory-form {
-  height: 100%;
-  width: 100%;
-  padding: 100px;
-  font-family: Arial, sans-serif;
-  box-sizing: border-box;
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .login, 
+  .register,
+  .addClassification, 
+  .addInventory {
+    padding: 1.5rem;
+  }
+  
+  .form {
+    padding: 1.5rem;
+  }
+  
+  .form-header h2 {
+    font-size: 1.5rem;
+  }
 }
 
-.addClassification input, 
-.addInventory input, 
-.addInventory textarea, 
-#classificationList, 
-.update-inventory-form input, 
-.update-inventory-form textarea {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 15px;
-  box-sizing: border-box;
+@media (max-width: 480px) {
+  .form {
+    padding: 1.25rem;
+    border-radius: 8px;
+  }
+  
+  .form-header h2 {
+    font-size: 1.3rem;
+  }
+  
+  .form input,
+  .form select,
+  .form textarea {
+    padding: 0.8rem;
+  }
 }
 
-.addClassification button, .addInventory button, .update-inventory-form button {
-  width: 100%;
-  padding: 15px;
-  margin-top: 10px;
-  background-color: #1056e2;
+/* Buttons */
+button,
+.submitBtn,
+.login button, 
+.register button,
+.addClassification button, 
+.addInventory button {
+  background: var(--clr-button1);
   color: white;
-  border-radius: 5px;
-  font-size: 15px;
-  cursor: pointer;
-}
-
-.update-inventory-form button:disabled {
-  background-color: #ffffff;
-  color: #ffffff;
   border: none;
-  cursor: default;
+  padding: 0.8rem 1.5rem;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  max-width: 300px;
+  margin: 0.5rem auto;
+  display: block;
+  font-family: var(--font-paragraph);
 }
 
+button:hover,
+.submitBtn:hover,
+.login button:hover, 
+.register button:hover,
+.addClassification button:hover, 
+.addInventory button:hover {
+  background: var(--clr-button2);
+}
+
+button:active,
+.submitBtn:active {
+  transform: translateY(2px);
+}
+
+/* Management View */
 .manageInventory {
-  font-family: Arial, sans-serif;
+  text-align: center;
+  padding: 2rem;
 }
 
 .manageInventory h1 {
-  font-size: 40px;
-  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 .manageInventory ul {
-  list-style-type: none;
-  padding: 10px;
-  text-align: center;
+  padding: 0;
 }
 
 .manageInventory li {
-  font-size: 20px;
-  padding: 10px;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
-#inventoryDisplay {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-#inventoryDisplay thead {
-  background-color: #051b47;
+.manageInventory a {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: var(--clr-medium2);
   color: white;
+  border-radius: 4px;
+  transition: all 0.3s ease;
 }
 
-#inventoryDisplay th,
-#inventoryDisplay td {
-  border: 1px solid #ddd;
-  padding: 10px;
+.manageInventory a:hover {
+  background: var(--clr-dark2);
+}
+
+/* Error Page */
+.error {
+  text-align: center;
+  padding: 2rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.error img {
+  max-width: 80%;
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+.error h2 {
+  font-size: 1.5rem;
+  margin-top: 1rem;
+}
+
+/* Media Queries */
+@media (min-width: 768px) {
+  :root {
+    font-size: 18px;
+  }
+  
+  .siteName {
+    font-size: 2rem;
+  }
+  
+  #tools a {
+    font-size: 1.1rem;
+  }
+  
+  .herolabel {
+    top: 20%;
+    left: 10%;
+  }
+  
+  button,
+  .submitBtn,
+  .login button, 
+  .register button,
+  .addClassification button, 
+  .addInventory button {
+    width: auto;
+    display: inline-block;
+  }
+}
+
+@media (min-width: 992px) {
+  #wrapper {
+    width: 90%;
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 800px) {
+  .reviews-upgrades {
+    grid-template-columns: 1fr;
+  }
+  
+  .vehicle-detail {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  #wrapper {
+    width: 100%;
+    padding: 0.5rem;
+    border: none;
+  }
+  
+  #top-header {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  #tools {
+    margin-top: 1rem;
+    text-align: center;
+  }
+  
+  nav ul {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .herolabel {
+    position: static;
+    max-width: 100%;
+    margin-top: 1rem;
+    box-shadow: none;
+  }
+  
+  #inv-display {
+    grid-template-columns: 1fr;
+  }
+  
+  .upgrades-grid {
+    grid-template-columns: 1fr;
+  }
 }
