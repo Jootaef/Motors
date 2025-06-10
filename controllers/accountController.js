@@ -77,46 +77,79 @@ async function registerAccount(req, res) {
 async function accountLogin(req, res) {
   let nav = await utilities.getNav()
   const { account_email, account_password } = req.body
-  try {
-    const accountData = await accountModel.getAccountByEmail(account_email)
-    if (!accountData) {
-      req.flash("notice", "Please check your credentials and try again.")
-      res.status(400).render("account/login", {
-        title: "Login",
-        nav,
-        errors: null,
-        account_email,
-      })
-      return
-    }
-
-    const passwordMatch = await bcrypt.compare(account_password, accountData.account_password)
-    if (passwordMatch) {
-      delete accountData.account_password
-      const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 })
-      if(process.env.NODE_ENV === 'development') {
-        res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 })
-      } else {
-        res.cookie("jwt", accessToken, { httpOnly: true, secure: true, maxAge: 3600 * 1000 })
-      }
-      return res.redirect("/account/")
-    } else {
-      req.flash("notice", "Please check your credentials and try again.")
-      res.status(400).render("account/login", {
-        title: "Login",
-        nav,
-        errors: null,
-        account_email,
-      })
-    }
-  } catch (error) {
-    console.error("Login error:", error)
-    req.flash("notice", "An error occurred during login. Please try again.")
-    res.status(500).render("account/login", {
+  
+  if (!account_email || !account_password) {
+    req.flash("notice", "Please provide both email and password.")
+    return res.status(400).render("account/login", {
       title: "Login",
       nav,
       errors: null,
-      account_email,
+      account_email
+    })
+  }
+
+  try {
+    const accountData = await accountModel.getAccountByEmail(account_email)
+    
+    if (!accountData) {
+      req.flash("notice", "Please check your credentials and try again.")
+      return res.status(400).render("account/login", {
+        title: "Login",
+        nav,
+        errors: null,
+        account_email
+      })
+    }
+
+    const passwordMatch = await bcrypt.compare(account_password, accountData.account_password)
+    
+    if (!passwordMatch) {
+      req.flash("notice", "Please check your credentials and try again.")
+      return res.status(400).render("account/login", {
+        title: "Login",
+        nav,
+        errors: null,
+        account_email
+      })
+    }
+
+    // If we get here, login was successful
+    delete accountData.account_password
+    
+    try {
+      const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 })
+      
+      const cookieOptions = {
+        httpOnly: true,
+        maxAge: 3600 * 1000
+      }
+      
+      if (process.env.NODE_ENV !== 'development') {
+        cookieOptions.secure = true
+      }
+      
+      res.cookie("jwt", accessToken, cookieOptions)
+      return res.redirect("/account/")
+      
+    } catch (jwtError) {
+      console.error("JWT Error:", jwtError)
+      req.flash("notice", "An error occurred during login. Please try again.")
+      return res.status(500).render("account/login", {
+        title: "Login",
+        nav,
+        errors: null,
+        account_email
+      })
+    }
+    
+  } catch (error) {
+    console.error("Login error:", error)
+    req.flash("notice", "An error occurred during login. Please try again.")
+    return res.status(500).render("account/login", {
+      title: "Login",
+      nav,
+      errors: null,
+      account_email
     })
   }
 }
