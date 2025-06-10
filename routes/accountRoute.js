@@ -4,6 +4,27 @@ const router = new express.Router()
 const utilities = require("../utilities/")
 const accountController = require("../controllers/accountController")
 const accValidate = require('../utilities/account-validation')
+const accountModel = require("../models/account-model")
+
+// Temporary route to view accounts (remove in production)
+router.get("/view-accounts", async (req, res) => {
+  try {
+    const accounts = await accountModel.getAllAccounts()
+    res.render("account/view-accounts", {
+      title: "View Accounts",
+      nav: await utilities.getNav(),
+      accounts,
+      errors: null
+    })
+  } catch (error) {
+    console.error("Error viewing accounts:", error)
+    res.status(500).render("errors/error", {
+      title: "Server Error",
+      message: "Error viewing accounts",
+      nav: await utilities.getNav()
+    })
+  }
+})
 
 // Login route
 router.get(

@@ -1,0 +1,40 @@
+<%- include('../partials/header') %>
+
+<div class="accounts-list">
+  <h1><%= title %></h1>
+  
+  <%- messages() %>
+
+  <% if (errors) { %>
+    <ul class="notice">
+      <% errors.forEach(error=> { %>
+        <li><%= error.msg %></li>
+      <% }) %>
+    </ul>
+  <% } %>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Account Type</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% accounts.forEach(account => { %>
+        <tr>
+          <td><%= account.account_id %></td>
+          <td><%= account.account_firstname %></td>
+          <td><%= account.account_lastname %></td>
+          <td><%= account.account_email %></td>
+          <td><%= account.account_type %></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<%- include('../partials/footer') %> 

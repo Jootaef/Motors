@@ -684,3 +684,129 @@ button:active,
     grid-template-columns: 1fr;
   }
 }
+
+/* Login and Register Pages Styles */
+.login-page, .register-page {
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.login-page h1, .register-page h1 {
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+}
+
+.login, .register {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.login label, .register label {
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.login input, .register input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.login input:focus, .register input:focus {
+  border-color: #3498db;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+.login button, .register button {
+  background-color: #3498db;
+  color: white;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login button:hover, .register button:hover {
+  background-color: #2980b9;
+}
+
+.login p, .register p {
+  text-align: center;
+  margin-top: 1rem;
+  color: #666;
+}
+
+.login a, .register a {
+  color: #3498db;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.login a:hover, .register a:hover {
+  text-decoration: underline;
+}
+
+#showPw {
+  display: inline-block;
+  margin-top: 0.5rem;
+  color: #3498db;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+#showPw:hover {
+  text-decoration: underline;
+}
+
+.notice {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  list-style: none;
+}
+
+.notice li {
+  margin-bottom: 0.5rem;
+}
+
+/* Password requirements hint */
+.password-hint {
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 0.25rem;
+}
+
+/* Form validation styles */
+input:invalid {
+  border-color: #dc3545;
+}
+
+input:valid {
+  border-color: #28a745;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .login-page, .register-page {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+}
