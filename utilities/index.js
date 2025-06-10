@@ -33,7 +33,54 @@ Util.getNav = async function (req, res, next) {
  **************************************** */
 Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
 
-module.exports = Util
+/* ****************************************
+* Middleware to check token validity
+**************************************** */
+Util.checkJWTToken = (req, res, next) => {
+  if (req.cookies.jwt) {
+    jwt.verify(
+      req.cookies.jwt,
+      process.env.ACCESS_TOKEN_SECRET,
+      function (err, accountData) {
+        if (err) {
+          req.flash("notice", "Please log in")
+          res.clearCookie("jwt")
+          return res.redirect("/account/login")
+        }
+        res.locals.accountData = accountData
+        res.locals.loggedin = true
+        next()
+      }
+    )
+  } else {
+    res.locals.loggedin = false
+    next()
+  }
+}
+
+/* ****************************************
+ *  Check Login
+ * ************************************ */
+Util.checkLogin = (req, res, next) => {
+  if (res.locals.loggedin) {
+    next()
+  } else {
+    req.flash("notice", "Please log in.")
+    return res.redirect("/account/login")
+  }
+}
+
+/* ****************************************
+ *  Check Account Type
+ * ************************************ */
+Util.checkAccountType = (req, res, next) => {
+  if (res.locals.accountData.account_type === "Employee" || res.locals.accountData.account_type === "Admin") {
+    next()
+  } else {
+    req.flash("notice", "Access denied. Employees and Admins only.")
+    return res.redirect("/account/login")
+  }
+}
 
 /* **************************************
 * Build the classification view HTML
@@ -116,43 +163,6 @@ Util.buildClassificationList = async function (classification_id = null) {
   })
   classificationList += "</select>"
   return classificationList
-}
-
-/* ****************************************
-* Middleware to check token validity
-**************************************** */
-Util.checkJWTToken = (req, res, next) => {
-  if (req.cookies.jwt) {
-    jwt.verify(
-      req.cookies.jwt,
-      process.env.ACCESS_TOKEN_SECRET,
-      function (err, accountData) {
-      if (err) {
-        req.flash("Please log in")
-        res.clearCookie("jwt")
-        return res.redirect("/account/login")
-      }
-      res.locals.accountData = accountData
-      res.locals.loggedin = true
-      next()
-      })
-    } else {
-    res.locals.loggedin = false
-    next()
-  }
-}
-
-/* ****************************************
- *  Check Login
- * ************************************ */
-Util.checkLogin = (req, res, next) => {
-  console.log('Logged In Status:', res.locals.loggedin)
-  if (res.locals.loggedin) {
-    next()
-  } else {
-    req.flash("notice", "Please log in.")
-    return res.redirect("/account/login")
-  }
 }
 
 module.exports = Util

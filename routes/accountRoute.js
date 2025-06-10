@@ -33,7 +33,7 @@ router.post(
   utilities.handleErrors(accountController.accountLogin)
 )
 
-// Check login request route
+// Account Management route
 router.get(
   "/", 
   utilities.checkLogin, 
@@ -43,21 +43,26 @@ router.get(
 // Display Update Form route
 router.get(
   "/update/:account_id", 
-  accountController.buildUpdateView
+  utilities.checkLogin,
+  utilities.handleErrors(accountController.buildUpdateView)
 )
 
 // Process Update Form Route
 router.post(
   "/update", 
+  utilities.checkLogin,
   accValidate.updateRules(), 
-  accountController.updateAccount
+  accValidate.checkUpdateData,
+  utilities.handleErrors(accountController.updateAccount)
 )
 
 // Password update route
 router.post(
   "/update-password", 
+  utilities.checkLogin,
   accValidate.passwordRules(), 
-  accountController.changePassword
+  accValidate.checkPasswordData,
+  utilities.handleErrors(accountController.changePassword)
 )
 
 // Logout route
