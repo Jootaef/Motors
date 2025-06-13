@@ -83,20 +83,34 @@ async function register(req, res) {
     )
 
     if (result) {
-        req.flash('notice', `Congratulations, you're registered ${firstName}. Please log in.`)
-        res.status(201).render('account/login', {
-            title: 'Login',
-            nav,
-            errors: null,
-        })
-    } else {
-        req.flash('notice', 'Sorry, the registration failed.')
-        res.status(501).render('account/register', {
-            title: 'Register',
-            nav,
-            errors: null,
-        })
+        // Get the newly registered account data
+        const accountData = await account.getAccountByEmail(email)
+        if (accountData) {
+            // Remove password before creating token
+            delete accountData.account_password
+            
+            // Create JWT token
+            const accessToken = jwt.sign(accountData, process.env.JWT_SECRET, {expiresIn: 3600 * 1000})
+            
+            // Configure cookie based on environment
+            if (process.env.NODE_ENV === 'development') {
+                res.cookie("jwt", accessToken, {httpOnly: true, maxAge: 3600 * 1000})
+            } else {
+                res.cookie("jwt", accessToken, {httpOnly: true, secure: true, maxAge: 3600 * 1000})
+            }
+
+            req.flash('notice', `Welcome ${firstName}! Your account has been successfully registered.`)
+            return res.redirect('/account/')
+        }
     }
+
+    // If something fails after registration
+    req.flash('notice', 'Sorry, there was an error processing your registration.')
+    res.status(501).render('account/register', {
+        title: 'Register',
+        nav,
+        errors: null,
+    })
 }
 
 async function checkYourCredentials(req, res, email) {
