@@ -50,6 +50,18 @@ async function register(req, res) {
         password
     } = req.body
 
+    // Check if email already exists
+    const emailExists = await account.checkExistingEmail(email)
+    if (emailExists > 0) {
+        req.flash('notice', 'Email address already exists. Please log in or register with a different email address.')
+        res.status(400).render('account/register', {
+            title: 'Register',
+            nav,
+            errors: null,
+        })
+        return
+    }
+
     let hashedPassword
     try {
         hashedPassword = await bcrypt.hash(password, 10)
@@ -60,6 +72,7 @@ async function register(req, res) {
             nav,
             errors: null,
         })
+        return
     }
 
     const result = await account.registerAccount(
