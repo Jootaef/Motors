@@ -6,9 +6,11 @@ async function registerAccount(firstName, lastName, email, password) {
             INSERT INTO account (account_firstname, account_lastname, account_email, account_password, account_type)
             VALUES ($1, $2, $3, $4, 'Client')
             RETURNING *`
-        return await pool.query(sql, [firstName, lastName, email, password])
+        const result = await pool.query(sql, [firstName, lastName, email, password])
+        return result.rows[0]
     } catch (error) {
-        return error.message
+        console.error('Error in registerAccount:', error)
+        throw error
     }
 }
 
@@ -21,7 +23,8 @@ async function checkExistingEmail(email) {
         const result = await pool.query(sql, [email])
         return result.rowCount
     } catch (error) {
-        return error.message
+        console.error('Error in checkExistingEmail:', error)
+        throw error
     }
 }
 
@@ -35,7 +38,8 @@ async function checkExistingEmailWithAccount(accountId, email) {
         const result = await pool.query(sql, [email, accountId])
         return result.rowCount
     } catch (error) {
-        return error.message
+        console.error('Error in checkExistingEmailWithAccount:', error)
+        throw error
     }
 }
 
@@ -48,7 +52,8 @@ async function getAccountByEmail(email) {
             [email])
         return result.rows[0]
     } catch (error) {
-        return new Error("No matching email found")
+        console.error('Error in getAccountByEmail:', error)
+        throw error
     }
 }
 
@@ -61,7 +66,8 @@ async function getAccountById(id) {
             [id])
         return result.rows[0]
     } catch (error) {
-        return new Error("No matching id found")
+        console.error('Error in getAccountById:', error)
+        throw error
     }
 }
 
@@ -71,12 +77,15 @@ async function updateAccount(id, firstName, lastName, email) {
             `UPDATE account
              SET account_firstname = $1,
                  account_lastname  = $2,
-                 account_email     = $3
-             WHERE account_id = $4`,
+                 account_email     = $3,
+                 account_updated_at = CURRENT_TIMESTAMP
+             WHERE account_id = $4
+             RETURNING *`,
             [firstName, lastName, email, id])
-        return result.rowCount
+        return result.rows[0]
     } catch (error) {
-        return new Error("update account model error: " + error)
+        console.error('Error in updateAccount:', error)
+        throw error
     }
 }
 
@@ -84,12 +93,15 @@ async function changePassword(id, password) {
     try {
         const result = await pool.query(
             `UPDATE account
-             SET account_password = $2
-             WHERE account_id = $1`,
+             SET account_password = $2,
+                 account_updated_at = CURRENT_TIMESTAMP
+             WHERE account_id = $1
+             RETURNING *`,
             [id, password])
-        return data.rows[0]
+        return result.rows[0]
     } catch (error) {
-        return new Error("change password model error: " + error)
+        console.error('Error in changePassword:', error)
+        throw error
     }
 }
 

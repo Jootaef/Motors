@@ -50,67 +50,78 @@ async function register(req, res) {
         password
     } = req.body
 
-    // Check if email already exists
-    const emailExists = await account.checkExistingEmail(email)
-    if (emailExists > 0) {
-        req.flash('notice', 'Email address already exists. Please log in or register with a different email address.')
-        res.status(400).render('account/register', {
-            title: 'Register',
-            nav,
-            errors: null,
-        })
-        return
-    }
-
-    let hashedPassword
     try {
-        hashedPassword = await bcrypt.hash(password, 10)
+        // Check if email already exists
+        const emailExists = await account.checkExistingEmail(email)
+        if (emailExists > 0) {
+            req.flash('notice', 'Email address already exists. Please log in or register with a different email address.')
+            res.status(400).render('account/register', {
+                title: 'Register',
+                nav,
+                errors: null,
+                firstName,
+                lastName,
+                email
+            })
+            return
+        }
+
+        let hashedPassword
+        try {
+            hashedPassword = await bcrypt.hash(password, 10)
+        } catch (error) {
+            console.error('Error hashing password:', error)
+            req.flash('notice', 'Sorry, there was an error processing the registration')
+            res.status(500).render('account/register', {
+                title: 'Register',
+                nav,
+                errors: null,
+                firstName,
+                lastName,
+                email
+            })
+            return
+        }
+
+        const accountData = await account.registerAccount(
+            firstName,
+            lastName,
+            email,
+            hashedPassword
+        )
+
+        if (!accountData) {
+            throw new Error('Failed to register account')
+        }
+
+        // Remove password before creating token
+        delete accountData.account_password
+        
+        // Create JWT token
+        const accessToken = jwt.sign(accountData, process.env.JWT_SECRET, {expiresIn: 3600 * 1000})
+        
+        // Configure cookie based on environment
+        if (process.env.NODE_ENV === 'development') {
+            res.cookie("jwt", accessToken, {httpOnly: true, maxAge: 3600 * 1000})
+        } else {
+            res.cookie("jwt", accessToken, {httpOnly: true, secure: true, maxAge: 3600 * 1000})
+        }
+
+        req.flash('notice', `Welcome ${firstName}! Your account has been successfully registered.`)
+        return res.redirect('/account/')
+
     } catch (error) {
-        req.flash('notice', 'Sorry, there was an error processing the registration')
+        console.error('Error in register:', error)
+        req.flash('notice', 'Sorry, there was an error processing your registration.')
         res.status(500).render('account/register', {
             title: 'Register',
             nav,
             errors: null,
+            firstName,
+            lastName,
+            email
         })
-        return
     }
-
-    const result = await account.registerAccount(
-        firstName,
-        lastName,
-        email,
-        hashedPassword,
-    )
-
-    if (result) {
-        // Get the newly registered account data
-        const accountData = await account.getAccountByEmail(email)
-        if (accountData) {
-            // Remove password before creating token
-            delete accountData.account_password
-            
-            // Create JWT token
-            const accessToken = jwt.sign(accountData, process.env.JWT_SECRET, {expiresIn: 3600 * 1000})
-            
-            // Configure cookie based on environment
-            if (process.env.NODE_ENV === 'development') {
-                res.cookie("jwt", accessToken, {httpOnly: true, maxAge: 3600 * 1000})
-            } else {
-                res.cookie("jwt", accessToken, {httpOnly: true, secure: true, maxAge: 3600 * 1000})
-            }
-
-            req.flash('notice', `Welcome ${firstName}! Your account has been successfully registered.`)
-            return res.redirect('/account/')
-        }
-    }
-
-    // If something fails after registration
-    req.flash('notice', 'Sorry, there was an error processing your registration.')
-    res.status(501).render('account/register', {
-        title: 'Register',
-        nav,
-        errors: null,
-    })
 }
 
 async function checkYourCredentials(req, res, email) {
