@@ -1,90 +1,46 @@
-// Needed Resources 
+﻿// Needed Resources
 const express = require("express")
-const router = new express.Router() 
-const invController = require("../controllers/invController")
-const invValidate = require("../utilities/inventory-validation")
-const utilities = require("../utilities/")
+const router = new express.Router()
+const controller = require("../controllers/invController")
+const validator = require("../utilities/inventory-validation");
+const utilities = require("../utilities");
 
-// Route to build inventory by classification view
-router.get(
-  "/type/:classificationId", 
-  invController.buildByClassificationId
+
+router.get("/", utilities.canAdminister, controller.buildManagement);
+router.get("/type/:classificationId", controller.buildByClassificationId);
+router.get("/detail/:id", controller.buildByInventoryId);
+
+router.get("/classification", utilities.canAdminister, controller.buildNewClassification);
+router.post('/classification',
+    utilities.canAdminister,
+    validator.classificationRules(),
+    validator.classificationDataCheck,
+    utilities.handleErrors(controller.addClassification)
 )
 
-// Route for viewing vehicles by inventory id
-router.get(
-  "/detail/:invId", 
-  invController.buildDetailView
+router.get("/vehicle", utilities.canAdminister, controller.buildNewVehicle);
+router.post('/vehicle',
+    utilities.canAdminister,
+    validator.vehicleRules(),
+    validator.vehicleDataCheck,
+    utilities.handleErrors(controller.addVehicle)
 )
 
-// Route to build the inventory management view
-router.get(
-  "/", 
-  utilities.checkLogin,
-  utilities.checkAccountType,
-  utilities.handleErrors(invController.buildManagementView)
+router.get("/getInventory/:classificationId", utilities.handleErrors(controller.getInventoryJson))
+
+router.get("/edit/:vehicleId", utilities.canAdminister, utilities.handleErrors(controller.buildEditVehicle))
+router.post("/update",
+    utilities.canAdminister,
+    validator.vehicleRules(),
+    validator.updateVehicleDataCheck,
+    utilities.handleErrors(controller.updateVehicle)
 )
 
-// Route to deliver add classification form
-router.get(
-  "/add-classification", 
-  utilities.checkLogin,
-  utilities.checkAccountType,
-  utilities.handleErrors(invController.buildAddClassification)
-)
+router.get('/delete/:vehicleId', utilities.canAdminister, utilities.handleErrors(controller.buildDeleteVehicle))
+router.post("/delete", utilities.canAdminister, utilities.handleErrors(controller.deleteVehicle))
 
-// Proccess the add classification data
-router.post(
-  "/add-classification",
-  utilities.checkLogin,
-  utilities.checkAccountType,
-  invValidate.classificationRules(),
-  invValidate.checkClassificationData,
-  utilities.handleErrors(invController.addClassification)
-)
+router.get("/getFeatured", utilities.handleErrors(controller.getFeaturedJson))
 
-// Route to deliver add inventory form
-router.get(
-  "/add-inventory", 
-  utilities.checkLogin,
-  utilities.checkAccountType,
-  utilities.handleErrors(invController.buildAddInventory)
-)
+router.get("/server-error", controller.buildServerError);
 
-// Proccess the add inventory data
-router.post(
-  "/add-inventory",
-  utilities.checkLogin,
-  utilities.checkAccountType,
-  invValidate.inventoryRules(),
-  invValidate.checkInventoryData,
-  utilities.handleErrors(invController.addInventory)
-)
-
-// Process the get inventory json
-router.get(
-  "/getInventory/:classification_id", 
-  utilities.checkLogin,
-  utilities.checkAccountType,
-  utilities.handleErrors(invController.getInventoryJSON)
-)
-
-// Route to the update inventory item view
-router.get(
-  "/update/:inv_id",
-  utilities.checkLogin,
-  utilities.checkAccountType,
-  utilities.handleErrors(invController.updateInventoryView)
-)
-
-// Route to update an inventory item
-router.post(
-  "/update/",
-  utilities.checkLogin,
-  utilities.checkAccountType,
-  invValidate.inventoryRules(),
-  invValidate.checkUpdateData,
-  utilities.handleErrors(invController.updateInventory)
-)
-
-module.exports = router
+module.exports = router;

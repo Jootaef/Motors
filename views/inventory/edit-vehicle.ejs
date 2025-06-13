@@ -15,7 +15,7 @@
 <% } %>
 
 <div class="form-wrapper add-vehicle-form validating-form">
-    <form id="addVehicleForm" action="/inv/vehicle" method="post">
+    <form id="editVehicleForm" action="/inv/update" method="post">
         <div>
             <label for="year">Year:</label>
             <input type="number" name="year" id="year" placeholder="2000"
@@ -75,15 +75,24 @@
         <div>
             <label for="isFeatured">Feature Vehicle:</label>
             <input type="checkbox" name="isFeatured" id="isFeatured"
-               <% if (locals.isFeatured) { %>
-                checked="checked"
-               <% } %>
+            <% if (locals.isFeatured) { %>
+                   checked="checked"
+                    <% } %>
             >
         </div>
         <div>
             <label for="classificationId">Classification:</label>
             <%- classifications %>
         </div>
-        <button type="submit">Create</button>
+        <button type="submit" disabled>Update Vehicle</button>
+        <input type="hidden" name="id" id="id"
+               <% if(locals.id) { %>
+               value="<%= locals.id %>"
+               <% } %>
+        >
     </form>
 </div>
+
+<noscript>Javascript must be enabled to use this page.</noscript>
+
+<script src="../../js/inv-update.js"></script>

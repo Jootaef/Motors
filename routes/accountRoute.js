@@ -1,96 +1,37 @@
-// Needed Resources
-const express = require("express")
+﻿const express = require('express')
 const router = new express.Router()
-const utilities = require("../utilities/")
-const accountController = require("../controllers/accountController")
-const accValidate = require('../utilities/account-validation')
-const accountModel = require("../models/account-model")
+const controller = require('../controllers/accountController')
+const utilities = require('../utilities')
+const validator = require('../utilities/account-validation')
 
-// Temporary route to view accounts (remove in production)
-router.get("/view-accounts", async (req, res) => {
-  try {
-    const accounts = await accountModel.getAllAccounts()
-    res.render("account/view-accounts", {
-      title: "View Accounts",
-      nav: await utilities.getNav(),
-      accounts,
-      errors: null
-    })
-  } catch (error) {
-    console.error("Error viewing accounts:", error)
-    res.status(500).render("errors/error", {
-      title: "Server Error",
-      message: "Error viewing accounts",
-      nav: await utilities.getNav()
-    })
-  }
-})
+router.get('/', utilities.checkLogin, utilities.handleErrors(controller.buildAccountManagement))
 
-// Login route
-router.get(
-  "/login", 
-  utilities.handleErrors(accountController.buildLogin)
+router.get('/register', utilities.handleErrors(controller.buildRegister))
+router.post('/register',
+    validator.registrationRules(),
+    validator.registrationDataCheck,
+    utilities.handleErrors(controller.register)
 )
 
-// Registration route (GET)
-router.get(
-  "/register", 
-  utilities.handleErrors(accountController.buildRegister)
+router.get('/login', utilities.handleErrors(controller.buildLogin))
+router.post('/login',
+    validator.loginRules(),
+    validator.loginDataCheck,
+    utilities.handleErrors(controller.accountLogin)
 )
 
-// Check registration data route
-router.post(
-    "/register",
-    accValidate.registrationRules(),
-    accValidate.checkRegData,
-    utilities.handleErrors(accountController.registerAccount)
-)
+router.get('/logout', utilities.handleErrors(controller.accountLogout))
 
-// Check login data route
-router.post(
-  "/login",
-  accValidate.loginRules(),
-  accValidate.checkLoginData,
-  utilities.handleErrors(accountController.accountLogin)
+router.get('/update/:accountId', utilities.handleErrors(controller.buildUpdateAccount))
+router.post('/update',
+    validator.updateAccountRules(),
+    validator.updateAccountDataCheck,
+    utilities.handleErrors(controller.updateAccount)
 )
-
-// Account Management route
-router.get(
-  "/", 
-  utilities.checkLogin, 
-  utilities.handleErrors(accountController.buildAccountManagement)
+router.post('/update/password',
+    validator.updatePasswordRules(),
+    validator.updatePasswordDataCheck,
+    utilities.handleErrors(controller.changePassword)
 )
-
-// Display Update Form route
-router.get(
-  "/update/:account_id", 
-  utilities.checkLogin,
-  utilities.handleErrors(accountController.buildUpdateView)
-)
-
-// Process Update Form Route
-router.post(
-  "/update", 
-  utilities.checkLogin,
-  accValidate.updateRules(), 
-  accValidate.checkUpdateData,
-  utilities.handleErrors(accountController.updateAccount)
-)
-
-// Password update route
-router.post(
-  "/update-password", 
-  utilities.checkLogin,
-  accValidate.passwordRules(), 
-  accValidate.checkPasswordData,
-  utilities.handleErrors(accountController.changePassword)
-)
-
-// Logout route
-router.get("/logout", (req, res) => {
-  res.clearCookie("jwt")
-  req.flash("notice", "You have logged out.")
-  res.redirect("/")
-})
 
 module.exports = router

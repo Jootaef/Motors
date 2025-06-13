@@ -1,11 +1,10 @@
+﻿<!--show the title if exists, otherwise redirect back to the homepage-->
 <% if (title) { %>
-<h1>
-    <%= title %>
-</h1>
-<% } else { res.redirect('/')} %>
+    <h1><%= title %></h1>
+<% } else {
+    res.redirect('/')
+} %>
 
-<% messages() %>
+<%- messages() %>
 
-<section class="vehicle-section">
-    <%- grid %>
-</section>
+<%- grid %>

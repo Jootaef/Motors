@@ -1,23 +1,29 @@
-<div class="addClassification">
-    <h1>Add Classification to Inventory</h1>
+﻿<% if (title) { %>
+    <h1><%= title %></h1>
+<% } else {
+    res.redirect('/')
+} %>
 
-    <%- messages() %>
+<%- messages() %>
 
-    <% if (errors) { %>
-        <ul class="notice">
-            <% errors.forEach(error=> { %>
-                <li>
-                    <%= error.msg %>
-                </li>
-            <% }) %>
-        </ul>
-    <% }%>
+<% if (errors) { %>
+<ul class="notice">
+    <% errors.array().forEach(error => { %>
+    <li><%= error.msg %></li>
+    <% }) %>
+</ul>
+<% } %>
 
-    <form class="addClassificationForm" action="/inv/add-classification" method="post">
-        <label for="classification_name">Classification Name: </label>
-        <input type="text" id="classification_name" name="classification_name" required pattern="^[a-zA-Z0-9]+$">
-        <span>This new classification name cannot contain a space or special character of any kind</span>
-
-        <button type="submit">Add Classification</button>
+<div class="form-wrapper validating-form">
+    <div class="fields-are-required">Required and must contain alphabetical characters only</div>
+    <form id="addClassificationForm" action="/inv/classification" method="post">
+        <div>
+            <label for="classificationName">Classification Name:</label>
+            <input type="text" name="classificationName" id="classificationName"
+                   pattern="^[A-Za-z]+$"
+                   value="<%= locals.classificationName %>"
+                   required autofocus>
+        </div>
+        <button type="submit">Create</button>
     </form>
 </div>

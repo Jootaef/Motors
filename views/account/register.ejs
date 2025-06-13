@@ -1,60 +1,47 @@
-<%- include('../partials/header') %>
+﻿<!--show the title if exists, otherwise redirect back to the homepage-->
+<% if (title) { %>
+    <h1><%= title %></h1>
+<% } else {
+    res.redirect('/')
+} %>
 
-<div class="register-page">
-    <title><%- title %></title>
+<%- messages() %>
 
-    <div class="register-message">
-        <%- messages() %>
-    </div>
+<% if (errors) { %>
+<ul class="notice">
+    <% errors.array().forEach(error => { %>
+    <li><%= error.msg %></li>
+    <% }) %>
+</ul>
+<% } %>
 
-    <% if (errors) { %>
-        <ul class="notice">
-            <% errors.array().forEach(error=> { %>
-                <li>
-                    <%= error.msg %>
-                </li>
-            <% }) %>
-        </ul>
-    <% }%>
-
-    <form class="register" action="/account/register" method="POST">
+<div class="register-form form-wrapper validating-form">
+    <div class="fields-are-required">All fields are required.</div>
+    <form id="registerForm" action="/account/register" method="post">
         <div>
-            <label for="account_firstname">First Name:</label>
-            <input type="text" name="account_firstname" id="account_firstname" required value="<%= locals.account_firstname %>">
+            <label for="firstName">First Name:</label>
+            <input type="text" name="firstName" id="firstName"
+                   value="<%= locals.firstName %>"
+                   required autofocus>
         </div>
         <div>
-            <label for="account_lastname">Last Name:</label>
-            <input type="text" name="account_lastname" id="account_lastname" required>
+            <label for="lastName">Last Name:</label>
+            <input type="text" name="lastName" id="lastName"
+                   value="<%= locals.lastName %>"
+                   required>
         </div>
         <div>
-            <label for="account_email">Email:</label>
-            <input type="email" name="account_email" id="account_email" required>
+            <label for="email">Email Address:</label>
+            <input type="email" name="email" id="email"
+                   value="<%= locals.email %>"
+                   required>
         </div>
         <div>
-            <label for="account_password">Password:</label>
-            <input type="password" name="account_password" id="account_password" required 
-                   pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$">
-            <span id="showPw" onclick="togglePassword()">Show Password</span>
-            <p class="password-hint">Password must be at least 12 characters and include 1 uppercase, 1 lowercase, 1 number, and 1 special character.</p>
+            <label for="password">Password<sup>*</sup>:</label>
+            <input type="password" name="password" id="password" required
+            pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$">
         </div>
+        <p>* Passwords must be minimum of 12 characters and include 1 capital letter, 1 number and 1 special character.</p>
         <button type="submit">Register</button>
-        <p>Already have an account? <a href="/account/login">Login</a></p>
     </form>
 </div>
-
-<script>
-    function togglePassword() {
-        const passwordInput = document.getElementById('account_password');
-        const showPwButton = document.getElementById('showPw');
-        
-        if (passwordInput.type === 'password') {
-            passwordInput.type = 'text';
-            showPwButton.textContent = 'Hide Password';
-        } else {
-            passwordInput.type = 'password';
-            showPwButton.textContent = 'Show Password';
-        }
-    }
-</script>
-
-<%- include('../partials/footer') %>
