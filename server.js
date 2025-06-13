@@ -25,11 +25,26 @@ app.use(session({
   store: new (require('connect-pg-simple')(session))({
     createTableIfMissing: true,
     pool,
+    tableName: 'session',
+    pruneSessionInterval: 60,
+    schema: {
+      tableName: 'session',
+      columnNames: {
+        sid: 'sid',
+        sess: 'sess',
+        expire: 'expire'
+      }
+    }
   }),
   secret: process.env.SESSION_SECRET,
-  resave: true,
-  saveUninitialized: true,
+  resave: false,
+  saveUninitialized: false,
   name: 'sessionId',
+  cookie: {
+    maxAge: 1000 * 60 * 60,
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true
+  }
 }))
 
 // Express Messages Middleware
