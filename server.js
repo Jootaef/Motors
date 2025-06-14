@@ -1,10 +1,6 @@
-/* ******************************************
- * This server.js file is the primary file of the 
- * application. It is used to control the project.
- *******************************************/
-/* ***********************
- * Require Statements
- *************************/
+/* Main server file - Controls the application */
+
+/* Required packages */
 const express = require('express')
 const expressLayouts = require('express-ejs-layouts')
 const env = require('dotenv').config()
@@ -18,9 +14,7 @@ const pool = require('./database/')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 
-/* ***********************
- * Middleware
- * ************************/
+/* Middleware setup */
 app.use(session({
   store: new (require('connect-pg-simple')(session))({
     createTableIfMissing: true,
@@ -58,16 +52,12 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser())
 app.use(utilities.checkJwtToken)
 
-/* ***********************
- * View Engine and Templates
- *************************/
+/* View engine setup */
 app.set('view engine', 'ejs')
 app.use(expressLayouts)
 app.set('layout', './layouts/layout') // not at views root
 
-/* ***********************
- * Routes
- *************************/
+/* Routes */
 app.use(staticFiles)
 // Index route
 app.get('/', utilities.handleErrors(baseController.buildHome))
@@ -81,10 +71,7 @@ app.use(async (req, res, next) => {
   next({status: 404, message: 'Sorry, we appear to have lost that page.'})
 })
 
-/* ***********************
-* Express Error Handler
-* Place after all other middleware
-*************************/
+/* Error handler */
 app.use(async (err, req, res, next) => {
   let nav = await utilities.getNav()
   console.error(`Error at: "${req.originalUrl}": ${err.status}: ${err.message}`)
@@ -102,16 +89,11 @@ app.use(async (err, req, res, next) => {
   })
 })
 
-/* ***********************
- * Local Server Information
- * Values from .env (environment) file
- *************************/
+/* Server configuration */
 const port = process.env.PORT
 const host = process.env.HOST
 
-/* ***********************
- * Log statement to confirm server operation
- *************************/
+/* Start server */
 app.listen(port, () => {
   console.log(`app listening on ${host}:${port}`)
 })
