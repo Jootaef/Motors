@@ -1,6 +1,7 @@
 ﻿const express = require('express')
 const router = new express.Router()
 const controller = require('../controllers/accountController')
+const favoriteController = require('../controllers/favoriteController')
 const utilities = require('../utilities')
 const validator = require('../utilities/account-validation')
 
@@ -33,5 +34,11 @@ router.post('/update/password',
     validator.updatePasswordDataCheck,
     utilities.handleErrors(controller.changePassword)
 )
+
+/* ***************************
+ * Favorites Routes
+ * ************************** */
+router.get('/favorites', utilities.checkLogin, utilities.handleErrors(favoriteController.buildFavorites))
+router.get('/toggle-favorite/:inventory_id', utilities.checkLogin, utilities.handleErrors(favoriteController.toggleFavorite))
 
 module.exports = router

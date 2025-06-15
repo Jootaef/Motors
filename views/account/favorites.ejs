@@ -1,0 +1,35 @@
+<%- include('../partials/header') %>
+
+<div class="container">
+    <h1 class="text-center my-4">My Favorites</h1>
+    
+    <% if (favorites && favorites.length > 0) { %>
+        <div class="row">
+            <% favorites.forEach(vehicle => { %>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <img src="<%= vehicle.inv_image %>" class="card-img-top" alt="<%= vehicle.inv_make %> <%= vehicle.inv_model %>">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= vehicle.inv_year %> <%= vehicle.inv_make %> <%= vehicle.inv_model %></h5>
+                            <p class="card-text">Price: $<%= new Intl.NumberFormat('en-US').format(vehicle.inv_price) %></p>
+                            <div class="d-flex justify-content-between">
+                                <a href="/inv/detail/<%= vehicle.inventory_id %>" class="btn btn-primary">View Details</a>
+                                <a href="/account/toggle-favorite/<%= vehicle.inventory_id %>" class="btn btn-danger">
+                                    <i class="fas fa-heart"></i> Remove
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    <% } else { %>
+        <div class="alert alert-info text-center">
+            You haven't added any vehicles to your favorites yet.
+            <br>
+            <a href="/inv" class="btn btn-primary mt-3">Browse Vehicles</a>
+        </div>
+    <% } %>
+</div>
+
+<%- include('../partials/footer') %> 

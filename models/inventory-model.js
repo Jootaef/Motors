@@ -34,9 +34,10 @@ async function getInventoryByClassificationId(classification_id) {
              WHERE i.classification_id = $1`,
             [classification_id]
         )
-        return data.rows
+        return data
     } catch (error) {
         console.error("getinventorybyclassificationid error " + error)
+        throw error
     }
 }
 
@@ -46,14 +47,16 @@ async function getInventoryByClassificationId(classification_id) {
 async function getInventoryById(id) {
     try {
         const data = await pool.query(
-            `SELECT *
+            `SELECT i.*, c.classification_name
              FROM public.inventory AS i
+             JOIN public.classification AS c ON i.classification_id = c.classification_id
              WHERE i.inv_id = $1`,
             [id]
         )
-        return data.rows[0];
+        return data;
     } catch (error) {
-        console.error("getbyid error " + error)
+        console.error("getInventoryById error:", error);
+        throw error;
     }
 }
 
@@ -91,7 +94,6 @@ async function addVehicle(year,
                           price,
                           miles,
                           color,
-                          isFeatured,
                           classificationId
 ) {
     try {
@@ -105,10 +107,9 @@ async function addVehicle(year,
                                    inv_price,
                                    inv_miles,
                                    inv_color,
-                                   is_featured,
                                    classification_id
                                    )
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
             RETURNING *`
         return await pool.query(sql, [
             make,
@@ -120,8 +121,7 @@ async function addVehicle(year,
             price,
             miles,
             color,
-            isFeatured,
-            parseInt(classificationId),
+            parseInt(classificationId)
         ])
     } catch (error) {
         return error.message
@@ -138,7 +138,6 @@ async function updateVehicle(id,
                              price,
                              miles,
                              color,
-                             isFeatured,
                              classificationId
 ) {
     try {
@@ -153,9 +152,8 @@ async function updateVehicle(id,
                 inv_price         = $7,
                 inv_miles         = $8,
                 inv_color         = $9,
-                is_featured       = $10,
-                classification_id = $11            
-            WHERE inv_id = $12
+                classification_id = $10            
+            WHERE inv_id = $11
             RETURNING *`
         const data = await pool.query(sql, [
             make,
@@ -167,15 +165,14 @@ async function updateVehicle(id,
             price,
             miles,
             color,
-            isFeatured,
             parseInt(classificationId),
             parseInt(id)
         ])
         return data.rows[0]
     } catch (error) {
         console.error("update vehicle model error: " + error)
+        throw error
     }
-
 }
 
 async function deleteVehicle(id) {
@@ -197,11 +194,12 @@ async function getFeatured() {
              FROM public.inventory AS i
                       JOIN public.classification AS c
                            ON i.classification_id = c.classification_id
-             WHERE i.is_featured = true`
+             LIMIT 3`
         )
-        return data.rows
+        return data
     } catch (error) {
-        console.error("getinventorybyclassificationid error " + error)
+        console.error("getFeatured error " + error)
+        throw error
     }
 }
 

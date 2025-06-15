@@ -1,0 +1,194 @@
+<%- include('../partials/header') %>
+
+<main class="container py-5">
+    <% if (vehicle) { %>
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-sm">
+                    <img src="<%= vehicle.inv_image %>" 
+                         class="card-img-top vehicle-image" 
+                         alt="<%= vehicle.inv_year %> <%= vehicle.inv_make %> <%= vehicle.inv_model %>"
+                         onerror="this.src='/images/no-image.png'">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h1 class="card-title mb-4">
+                            <%= vehicle.inv_year %> <%= vehicle.inv_make %> <%= vehicle.inv_model %>
+                        </h1>
+                        
+                        <div class="price-badge mb-4">
+                            <span class="badge bg-primary rounded-pill fs-4">
+                                $<%= new Intl.NumberFormat('en-US').format(vehicle.inv_price) %>
+                            </span>
+                        </div>
+
+                        <div class="specs-grid mb-4">
+                            <div class="spec-item">
+                                <i class="fas fa-road me-2"></i>
+                                <span><%= new Intl.NumberFormat('en-US').format(vehicle.inv_miles) %> miles</span>
+                            </div>
+                            <div class="spec-item">
+                                <i class="fas fa-palette me-2"></i>
+                                <span><%= vehicle.inv_color %></span>
+                            </div>
+                            <div class="spec-item">
+                                <i class="fas fa-tag me-2"></i>
+                                <span><%= vehicle.classification_name %></span>
+                            </div>
+                        </div>
+
+                        <div class="description mb-4">
+                            <h3>Description</h3>
+                            <p class="card-text"><%= vehicle.inv_description %></p>
+                        </div>
+
+                        <% if (accountData) { %>
+                            <div class="action-buttons d-flex gap-3">
+                                <a href="/inv/detail/<%= vehicle.inv_id %>" class="btn btn-primary btn-lg flex-grow-1">
+                                    <i class="fas fa-car me-2"></i>
+                                    View Details
+                                </a>
+                                <a href="/account/toggle-favorite/<%= vehicle.inv_id %>" 
+                                   class="btn <%= isFavorite ? 'btn-danger' : 'btn-outline-danger' %> btn-lg flex-grow-1">
+                                    <i class="fas fa-heart me-2"></i>
+                                    <%= isFavorite ? 'Remove from Favorites' : 'Add to Favorites' %>
+                                </a>
+                            </div>
+                        <% } else { %>
+                            <div class="action-buttons">
+                                <a href="/account/login" class="btn btn-primary btn-lg w-100">
+                                    <i class="fas fa-sign-in-alt me-2"></i>
+                                    Login to Add Favorites
+                                </a>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% } else { %>
+        <div class="alert alert-danger text-center">
+            <i class="fas fa-exclamation-circle me-2"></i>
+            Vehicle not found.
+        </div>
+    <% } %>
+</main>
+
+<style>
+.vehicle-image {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-top-left-radius: calc(0.25rem - 1px);
+    border-top-right-radius: calc(0.25rem - 1px);
+}
+
+.price-badge {
+    display: inline-block;
+}
+
+.specs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 0.5rem;
+}
+
+.spec-item {
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+}
+
+.description {
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+}
+
+.description h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #0d6efd;
+}
+
+.action-buttons {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid #dee2e6;
+}
+
+.action-buttons .btn {
+    padding: 1rem 1.5rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.action-buttons .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.action-buttons .btn-primary {
+    background-color: var(--clr-medium2);
+    border-color: var(--clr-medium2);
+}
+
+.action-buttons .btn-primary:hover {
+    background-color: var(--clr-dark2);
+    border-color: var(--clr-dark2);
+}
+
+.action-buttons .btn-outline-danger {
+    border-width: 2px;
+}
+
+.action-buttons .btn-outline-danger:hover {
+    background-color: #dc3545;
+    color: white;
+}
+
+.action-buttons .btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.action-buttons .btn-danger:hover {
+    background-color: #bb2d3b;
+    border-color: #bb2d3b;
+}
+
+.action-buttons .btn i {
+    font-size: 1.1em;
+}
+
+.card {
+    border: none;
+    border-radius: 0.5rem;
+}
+
+.badge {
+    font-size: 1.5rem;
+    padding: 0.75em 1.5em;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+}
+
+.alert {
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    font-size: 1.1rem;
+}
+</style>
+
+<%- include('../partials/footer') %> 
